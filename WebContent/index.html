@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<body>
+<form id="number" method="get">
+<input type="text" name="boardid">
+<input type="button" id="sbbtn" value="submit">
+</form>
+<p id="data"></p>
+<script>
+$(document).ready(function() {
+	$("#sbbtn").click(function() {
+		var idboard=$("input[name=boardid]").val();
+		$.ajax({
+			type: "GET",
+			url: "./getcontent.jsp",
+			cache: false,
+			data: {idboard: idboard},
+			success: onSuccess,
+			error: onError
+		});
+	});
+});
+function onSuccess(json,status) {
+	$("#data").text(json);
+}
+function onError(data,status) {
+	alert("error");
+}
+</script>
+</body>
+</html>
