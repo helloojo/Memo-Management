@@ -1,0 +1,411 @@
+html,body,div,span,h3,hr,textarea,input,img {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font: inherit;
+	font-size: 100%;
+	line-height: 100%;
+	box-sizing: border-box;
+}
+
+div,span,li,button,input,textarea,ul {
+	outline: none;
+}
+
+html,
+body {
+	height: 100%;
+}
+
+.main {
+	width: 100%;
+	height: 100%;
+}
+
+
+.searchbar {
+	background: #F23369;
+	height: 5%;
+	display: flex;
+	position: relative;
+	align-content: center;
+}
+
+#search {
+	width: 35%;
+	height: 65%;
+	margin: 0.45rem 2.5%;
+	transition: 0.4s ease-in-out;
+}
+
+.searchresult {
+	position: absolute;
+	display: none;
+	left: 0;
+	top: 5%;
+	width: 100%;
+	height: 95%;
+	background: rgba(0, 0, 0, 0.7);
+	z-index: 9876543;
+	animation: 0.4s fade-in;
+}
+
+#search:focus {
+	width: 95%;
+}
+
+.board {
+	width: 80%;
+	height: 95%;
+	background: #EDEEF2;
+	float: left;
+	overflow: hidden;
+}
+
+
+.memo {
+	margin: 0.5rem;
+	width: 250px;
+	box-shadow: 0.3rem 0.3rem 1rem rgba(0, 0, 0, 0.5);
+}
+
+.memo>hr {
+	margin: 0;
+	border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.move {
+	height: 30px;
+	background: rgba(0, 0, 0, 0.25);
+	width: 100%;
+}
+
+.option {
+	float: right;
+}
+
+.star {
+	color: yellow;
+	font-size: 1.8rem;
+	cursor: pointer;
+}
+
+.image {
+	display: inline-block;
+	cursor: pointer;
+	font-size: 1.7rem;
+	margin-right: 0.3rem;
+	color: #EDEEF2;
+}
+
+.image:hover,
+.image:focus {
+	color: red;
+}
+
+.imageinput {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	border: 0;
+}
+
+.memobgcolor {
+	-webkit-appearance: none;
+	display: inline-block;
+	width: 23px;
+	border: 0;
+	border-radius: 50%;
+	cursor: pointer;
+	position: relative;
+	top: -0.2rem;
+}
+
+.memobgcolor::-webkit-color-swatch-wrapper {
+	padding: 0;
+}
+
+.memobgcolor::-webkit-color-swatch {
+	border: 2px ridge #DDDDDD;
+	border-radius: 50%;
+}
+
+.memobgcolor::-webkit-color-swatch:hover,
+.memobgcolor::-webkit-color-swatch:focus {
+	border: 2px inset #DDDDDD;
+}
+
+.delete {
+	margin-right: 0.4rem;
+	font-size: 1.7rem;
+	color: #EDEEF2;
+}
+
+.delete:hover,
+.delete:focus {
+	color: #f44336;
+	cursor: pointer;
+}
+
+.title {
+	display: block;
+	font-size: 1rem;
+	font-weight: bold;
+	border: 0;
+	padding: 1rem;
+	width: 90%;
+}
+
+.imagearea {
+	width: 90%;
+	margin: 0.5rem auto 0 auto;
+	display: block;
+}
+
+.content {
+	display: block;
+	margin: 0.5rem auto;
+	border: 0;
+	resize: none;
+	width: 90%;
+	overflow: hidden;
+	height: 150px;
+}
+
+.time {
+	margin-right: 0.4rem;
+	margin-bottom: 0.3rem;
+	float: right;
+	font-weight: 600;
+}
+
+
+.list {
+	width: 20%;
+	height: 95%;
+	background: #272945;
+	float: right;
+}
+
+.boardlist {
+	margin-top: 5rem;
+	margin-left: 2rem;
+	color: #EDEEF2;
+}
+
+.boardli {
+	font-size: 1.6rem;
+	font-weight: bold;
+	cursor: pointer;
+	margin: 1rem 0 0 0;
+}
+
+.boardli:hover {
+	color: #F5B893;
+	transition: 0.2s;
+}
+
+.memoli {
+	cursor: pointer;
+	float: left;
+	list-style: none;
+	font-size: 1.1rem;
+	padding: 0 2rem;
+	margin: 0.4rem 0;
+}
+
+.memoli > li {
+	margin-bottom: 0.3rem;
+}
+
+.buttonzone {
+	display: inline-block;
+	position: relative;
+	top: -1.8rem;
+	left: 3rem;
+	font-size: 1.3rem;
+	font-weight: bold;
+	color: #EDEEF2;
+}
+
+.add:hover,
+.add:focus,
+.edit:hover,
+.edit:focus,
+.close:hover,
+.close:focus,
+.dboard:hover,
+.dboard:focus {
+	color: #f44336;
+	cursor: pointer;
+}
+
+
+li > .star {
+	font-size: 1.6rem;
+}
+
+li > .star, li > .close {
+	position: relative;
+	left: 10.5rem;
+	top: 0.4rem;
+}
+
+#addboard {
+	display: block;
+	color: #EDEEF2;
+	font-size: 1.5rem;
+	font-weight: bold;
+	padding: 1rem 2rem;
+	margin: 2.5rem auto;
+	border: 0;
+	background: #00BFFF;
+	border-radius: 1rem;
+}
+#addboard:hover {
+	background: #FF8F00;
+	color: #2D3235;
+	transition: 0.2s;
+}
+
+.modal {
+	display: none;
+	position: absolute;
+	background: rgba(0, 0, 0, 0.7);
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 98765432;
+	overflow: hidden;
+	animation: 0.4s fade-in;
+}
+
+@keyframes fade-in {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
+
+.addmodal-content {
+	position: relative;
+	width: 25%;
+	height: 30%;
+	margin: auto;
+	top: 25%;
+	background: #EDEEF2;
+	z-index: 987654321;
+	animation: 0.5s zoom-out;
+	font-weight: bold;
+}
+
+@keyframes zoom-out {
+	from {
+		transform: scale(0);
+	}
+	to {
+		transform: scale(1);
+	}
+}
+
+.header {
+	padding: 2.5%;
+}
+
+.header>h3 {
+	font-size: 1.8rem;
+}
+
+.header>hr {
+	margin-top: 1rem;
+	border: 1px solid #272945;
+}
+.formfordelete {
+	margin-top: 1.7rem;
+	padding: 2.5%;
+	margin-bottom: 5.5rem;
+	text-align: center;
+	font-size: 1.3rem;
+	color: #F23369;
+}
+
+.namesec {
+	margin-top: 0.7rem;
+	padding: 2.5%;
+}
+
+input[name="name"] {
+	margin-left: 6.5rem;
+	width: 20%;
+	transition: 0.4s ease-in-out;
+}
+
+input[name="name"]:focus {
+	width: 65%;
+}
+
+.colorsec {
+	padding: 2.5%;
+}
+
+input[name="boardbgcolor"] {
+	-webkit-appearance: none;
+	display: inline-block;
+	width: 30px;
+	height: 30px;
+	border: 0;
+	border-radius: 50%;
+	cursor: pointer;
+	position: relative;
+	top: 0.4rem;
+	left: 1rem;
+}
+
+input[name="boardbgcolor"]::-webkit-color-swatch-wrapper {
+	padding: 0;
+}
+
+input[name="boardbgcolor"]::-webkit-color-swatch {
+	border: 2px ridge #DDDDDD;
+	border-radius: 50%;
+}
+
+input[name="boardbgcolor"]::-webkit-color-swatch:hover,
+input[name="boardbgcolor"]::-webkit-color-swatch:focus {
+	border: 2px inset #DDDDDD;
+}
+
+.btsection {
+	margin-top: 10%;
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.sbbtn, .ccbtn {
+	width: 45%;
+	margin: 0 1%;
+	padding: 2% 0;
+	font-weight: bold;
+	font-size: 1.5rem;
+	border-radius: 1rem;
+	background: #707172;
+	color: #EDEEF2;
+}
+
+.sbbtn:hover {
+	background: #275FB4;
+	transition: 0.2s;
+}
+
+.ccbtn:hover {
+	background: #A34845;
+	transition: 0.2s;
+}

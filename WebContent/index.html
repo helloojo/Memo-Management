@@ -1,36 +1,128 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<title>Memo Manage Program</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no">
+	<link rel="stylesheet" type="text/css" href="./css/icon.css">
+	<link rel="stylesheet" type="text/css" href="./css/12141562.css">
+	<script src="./js/jquery-3.3.1.min.js"></script>
+	<script src="./js/jquery-ui.min.js"></script>
 </head>
+
 <body>
-<form id="number" method="get">
-<input type="text" name="boardid">
-<input type="button" id="sbbtn" value="submit">
-</form>
-<p id="data"></p>
-<script>
-$(document).ready(function() {
-	$("#sbbtn").click(function() {
-		var idboard=$("input[name=boardid]").val();
-		$.ajax({
-			type: "GET",
-			url: "./getcontent.jsp",
-			cache: false,
-			data: {idboard: idboard},
-			success: onSuccess,
-			error: onError
-		});
-	});
-});
-function onSuccess(json,status) {
-	$("#data").text(json);
-}
-function onError(data,status) {
-	alert("error");
-}
-</script>
+	<div class="main">
+		<!--search에 focus 발생시 메모화면 검정색으로 만들고 검색결과 출력-->
+		<div class="searchbar">
+			<input type="text" id="search" name="search" placeholder="Search...">
+		</div>
+		<div class="searchresult"></div>
+		<div class="board">
+			<!--현재 자바스크립트로 이곳에 메모리스트 넣음-->
+		</div>
+		<div class="list">
+			<div class="boardlist">
+				<!--지금은 전체 보드의 메모리스트가 다있고 숨겨져있지만 나중에 서버에서 보드리스트 클릭시 서버에서 가져오게-->
+				<div class="boardli">Board 1 (4)</div>
+				<div style="display: inline-block">
+					<div class="buttonzone">
+						<span class="material-icons add">note_add</span>
+						<span class="material-icons edit">edit</span>
+						<span class="material-icons dboard">close</span>
+					</div>
+					<ul class="memoli">
+						<li>Memo 1
+							<i class="material-icons star">star_border</i>
+							<i class="material-icons close">close</i>
+						</li>
+						<li>Memo 2
+							<i class="material-icons star">star_border</i>
+							<i class="material-icons close">close</i>
+						</li>
+						<li>Memo 3
+							<i class="material-icons star">star_border</i>
+							<i class="material-icons close">close</i>
+						</li>
+						<li>Memo 4
+							<i class="material-icons star">star_border</i>
+							<i class="material-icons close">close</i>
+						</li>
+					</ul>
+				</div>
+				<div class="boardli">Board 2 (3)</div>
+				<div style="display: inline-block">
+					<div class="buttonzone">
+						<span class="material-icons add">note_add</span>
+						<span class="material-icons edit">edit</span>
+						<span class="material-icons dboard">close</span>
+					</div>
+					<ul class="memoli">
+						<li>Memo 1
+							<i class="material-icons star">star_border</i>
+							<i class="material-icons close">close</i>
+						</li>
+						<li>Memo 2
+							<i class="material-icons star">star_border</i>
+							<i class="material-icons close">close</i>
+						</li>
+						<li>Memo 3
+							<i class="material-icons star">star_border</i>
+							<i class="material-icons close">close</i>
+						</li>
+					</ul>
+				</div>
+				<div class="boardli">Board 3 (1)</div>
+				<div style="display: inline-block">
+					<div class="buttonzone">
+						<span class="material-icons add">note_add</span>
+						<span class="material-icons edit">edit</span>
+						<span class="material-icons dboard">close</span>
+					</div>
+					<ul class="memoli">
+						<li>Memo 1
+							<i class="material-icons star">star_border</i>
+							<i class="material-icons close">close</i>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div>
+				<!--클릭시 modal창 나와서 Board 추가할 수 있게 구현-->
+				<button id="addboard">Create New Board</button>
+			</div>
+		</div>
+		<div class="modal">
+			<form class="addmodal-content" action="javascript:void(0);">
+				<div class="header">
+					<h3>Create New Board</h3>
+					<hr>
+				</div>
+				<div class="formforadd">
+					<div class="namesec">
+						<label class="name">Name
+							<input type="text" name="name">
+						</label>
+					</div>
+					<div class="colorsec">
+						<label class="color">Background Color
+							<input type="color" name="boardbgcolor">
+						</label>
+					</div>
+				</div>
+				<div class="formfordelete">
+					<div class="deletemessage">
+						All your memos will be deleted
+					</div>
+				</div>
+				<div class="btsection">
+					<input type="submit" value="Create" class="sbbtn">
+					<input type="reset" value="Cancel" class="ccbtn">
+				</div>
+			</form>
+		</div>
+	</div>
+	<script src="./js/12141562.js"></script>
 </body>
+
 </html>
