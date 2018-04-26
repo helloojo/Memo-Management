@@ -1,8 +1,8 @@
 var MemoManage = (function() {
   var board = $(".board");
   var add = $(".add");
-  var edit=$(".edit");
-  var dboard=$(".dboard");
+  var edit = $(".edit");
+  var dboard = $(".dboard");
   var boardli = $(".boardli");
   var boardArr = [];
   //전체 보드 저장 배열
@@ -51,15 +51,15 @@ var MemoManage = (function() {
   }
 
   $("#search").focusin(function() {
-    $(".searchresult").css("display","block");
+    $(".searchresult").css("display", "block");
   });
   //search focus기능
   $("#search").focusout(function() {
-    $(".searchresult").css("display","none");
+    $(".searchresult").css("display", "none");
   });
   //modal창 submit시 board추가 후 modal창 사라짐(board추가 구현필요)
   $(".sbbtn").click(function() {
-    $(".modal").css("display","none");
+    $(".modal").css("display", "none");
   });
 
   //modal창 임시 cancel 기능 구현
@@ -86,31 +86,33 @@ var MemoManage = (function() {
 
   //modal창 버튼에 따라 내용다르게
   edit.click(function() {
-    $(".modal").css("display","block");
-    $(".formforadd").css("display","block");
-    $(".formfordelete").css("display","none");
+    $(".modal").css("display", "block");
+    $(".formforadd").css("display", "block");
+    $(".formfordelete").css("display", "none");
     $(".header > h3").html("Modify Board");
-    $(".sbbtn").attr("value","Modify");
+    $(".sbbtn").attr("value", "Modify");
   });
   $("#addboard").click(function() {
-    $(".modal").css("display","block");
-    $(".formforadd").css("display","block");
-    $(".formfordelete").css("display","none");
+    $(".modal").css("display", "block");
+    $(".formforadd").css("display", "block");
+    $(".formfordelete").css("display", "none");
     $(".header > h3").html("Create New Board");
-    $(".sbbtn").attr("value","Create");
+    $(".sbbtn").attr("value", "Create");
   });
   dboard.click(function() {
-    $(".modal").css("display","block");
-    $(".formfordelete").css("display","block");
-    $(".formforadd").css("display","none");
+    $(".modal").css("display", "block");
+    $(".formfordelete").css("display", "block");
+    $(".formforadd").css("display", "none");
     $(".header > h3").html("Are You Sure Delete this Board?");
-    $(".sbbtn").attr("value","Delete");
+    $(".sbbtn").attr("value", "Delete");
   });
 
 
   var generator = (function() {
     //메모 생성자
     function Memo(attr) {
+      this.memoid=attr.mid;
+      this.boardid=attr.bid;
       this.memo = $(document.createElement("div")).addClass("memo");
       this.move = $(document.createElement("div")).addClass("move");
       this.option = $(document.createElement("div")).addClass("option");
@@ -129,7 +131,7 @@ var MemoManage = (function() {
       this.time = $(document.createElement("div")).addClass("time");
       this.memo.append(this.move).append(this.title).append($(document.createElement("hr"))).append(this.image).append(this.content).append(this.time);
       this.move.append(this.option);
-      this.bgColor = attr.color;
+      this.bgColor = attr.bgcolor;
       this.imageinput.attr({
         type: "file",
         name: "image",
@@ -142,7 +144,7 @@ var MemoManage = (function() {
       });
       this.memo.css("background", this.bgColor);
       this.title.attr("value", attr.title).css("background", this.bgColor);
-      this.image.attr("src",attr.src);      //임시 이미지 출력위함
+      this.image.attr("src", attr.src); //임시 이미지 출력위함
       this.content.html(attr.content).css("background", this.bgColor);
       this.time.html(attr.time);
       setRandomPos(this.memo);
@@ -184,20 +186,12 @@ var MemoManage = (function() {
       curmemo.title.focusout(function() { //memo 수정 완료시 시간 변경
         $(this.parentElement).css("z-index", 98765);
         curmemo.time.html(getTime());
-        curmemo.title.attr("value",curmemo.title.val());
-        alert("title: "+curmemo.title.attr("value")+"\n"+
-          "content: "+curmemo.content.html()+"\n"+
-          "bgColor: "+curmemo.bgColor+"\n"+
-          "time: "+curmemo.time.html());
+        curmemo.title.attr("value", curmemo.title.val());
       });
       curmemo.content.focusout(function() {
         $(this.parentElement).css("z-index", 98765);
         curmemo.time.html(getTime());
         curmemo.content.html(curmemo.content.val());
-        alert("title: "+curmemo.title.attr("value")+"\n"+
-          "content: "+curmemo.content.html()+"\n"+
-          "bgColor: "+curmemo.bgColor+"\n"+
-          "time: "+curmemo.time.html());
       });
       curmemo.memo.mousedown().draggable({ //메모 drag 기능 추가
         handle: ".move",
@@ -217,18 +211,11 @@ var MemoManage = (function() {
         }
       }
     }
-    //메모내용 결정
-    function getAttr(attr) {
-      return {
-        title: "Memo " + (attr.cnt),
-        content: "Content " + (attr.cnt),
-        time: getTime(),
-        color: attr.cr,
-        src: attr.src     //임시 이미지 출력위함
-      };
-    }
 
-    function Board() {
+    function Board(attr) {
+      this.boardid = attr.id;
+      this.boardname = attr.name;
+      this.boardbgcolor = attr.color;
       this.memoArr = [];
       this.memocnt = 0;
       this.print = function() {
@@ -238,12 +225,8 @@ var MemoManage = (function() {
           setEvent(this.memoArr[i]);
         }
       }
-      this.add = function(src) {
-        this.memoArr[this.memocnt++] = generator.getNewMemo(getAttr({
-          cnt: this.memocnt,
-          cr: getRandomColor(),
-          src: src      //임시 이미지를 위함
-        }));
+      this.add = function(attr) {
+        this.memoArr[this.memocnt++] = generator.getNewMemo(attr);
         board.append(this.memoArr[this.memocnt - 1].memo);
       }
     }
@@ -253,33 +236,40 @@ var MemoManage = (function() {
         setEvent(tempmemo);
         return tempmemo; //새 메모 생성
       },
-      getNewBoard: function() {
-        return new Board();
+      getNewBoard: function(attr) {
+        return new Board(attr);
       }
     };
   })();
   //todo 보드 추가하기, 검색, memo추가 되었을때 list도 수정하기
   //todo board 생성자에 memo 집어넣어서 구조있게 구현
 
+  //DB 연결해서 보드 가져오기
+  var firstid = 0;
 
+  function getDatafromDB() {
+    $.getJSON("./getBoard.jsp", function(data) {
+      for (i = 0; i < data.length; i++) {
+        boardArr[i] = generator.getNewBoard(data[i]);
+        getMemofromDB(i);
+      }
+      console.log(boardArr);
+    });
+    boardArr[0].print();
+  }
 
+  function getMemofromDB(index) {
+      $.getJSON("./getMemo.jsp", { boardid: boardArr[index].boardid }, function(data) {
+        for (j = 0; j < data.length; j++) {
+          boardArr[index].add(data[j]);
+        }
+      });
+  }
 
   //현재 html 마크업에 맞게 보드와 메모 추가
   return {
     init: function() {
-      boardArr[boardidx++] = generator.getNewBoard();
-      boardArr[boardidx - 1].add("");
-      boardArr[boardidx - 1].add("./image/image2.jpg");
-      boardArr[boardidx - 1].add("./image/image1.jpg");
-      boardArr[boardidx - 1].add("");
-      boardArr[boardidx++] = generator.getNewBoard();
-      boardArr[boardidx - 1].add();
-      boardArr[boardidx - 1].add();
-      boardArr[boardidx - 1].add();
-      boardArr[boardidx++] = generator.getNewBoard();
-      boardArr[boardidx - 1].add();
-      boardArr[0].print();
-      console.log(boardArr);
+      getDatafromDB();
     }
   };
 })();
