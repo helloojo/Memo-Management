@@ -13,9 +13,11 @@ var MemoManage = (function() {
 
   //메모 생성시 랜덤 위치 설정
   function setRandomPos(memo) {
+    memo.y=Math.floor(Math.random() * (board[0].clientHeight - 350)) + 50;
+    memo.x=Math.floor(Math.random() * (board[0].clientWidth - 300));
     memo.offset({
-      top: Math.floor(Math.random() * (board[0].clientHeight - 350)) + 50,
-      left: Math.floor(Math.random() * (board[0].clientWidth - 300))
+      top: y,
+      left: x
     });
   }
 
@@ -147,7 +149,8 @@ var MemoManage = (function() {
       this.image.attr("src", attr.src); //임시 이미지 출력위함
       this.content.html(attr.content).css("background", this.bgColor);
       this.time.html(attr.time);
-      setRandomPos(this.memo);
+      this.x=attr.x;
+      this.y=attr.y;
     }
 
     function setEvent(curmemo) {
@@ -233,6 +236,9 @@ var MemoManage = (function() {
     return {
       getNewMemo: function(attr) {
         var tempmemo = new Memo(attr);
+        if(!(attr.x && attr.y)) {
+          setRandomPos(tempmemo);
+        }
         setEvent(tempmemo);
         return tempmemo; //새 메모 생성
       },
@@ -248,25 +254,24 @@ var MemoManage = (function() {
   var firstid = 0;
 
   function getDatafromDB() {
-    $.getJSON("./getBoard.jsp", function(data) {
+    $.getJSON("./getData.jsp",{value: 0}, function(data) {
       for (i = 0; i < data.length; i++) {
         boardArr[i] = generator.getNewBoard(data[i]);
         getMemofromDB(i);
       }
-      console.log(boardArr);
     });
-    boardArr[0].print();
   }
 
   function getMemofromDB(index) {
-      $.getJSON("./getMemo.jsp", { boardid: boardArr[index].boardid }, function(data) {
+      $.getJSON("./getDate.jsp", { value: 1, boardid: boardArr[index].boardid }, function(data) {
         for (j = 0; j < data.length; j++) {
           boardArr[index].add(data[j]);
         }
+        boardArr[0].print();
       });
   }
 
-  //현재 html 마크업에 맞게 보드와 메모 추가
+  //현재 html 마크업에 맞게 보드와 메모 추가5
   return {
     init: function() {
       getDatafromDB();

@@ -23,7 +23,8 @@
 		String r_color=rs.getString("bgcolor");
 		int r_imgid=rs.getInt("imageid");
 		boolean r_imp=rs.getBoolean("important");
-		str+=Memo.getData(r_title,r_content,r_time,r_color,r_imp,r_bID,r_mID,r_imgid);
+		int x=rs.getInt("x");
+		int y=rs.getInt("y");
 		str+=",";
 	}
 	StringBuilder json=new StringBuilder(str);
