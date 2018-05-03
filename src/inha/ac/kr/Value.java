@@ -14,4 +14,5 @@ public class Value {
 	public static final int DELETEBOARD=10;
 	public static final int DELETEMEMO=11;
 	public static final int UPDATEBOARD=12;
+	public static final int ADDBOARD=13;
 }

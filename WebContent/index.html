@@ -20,78 +20,20 @@
 		<div class="searchresult"></div>
 		<div class="board">
 			<!--현재 자바스크립트로 이곳에 메모리스트 넣음-->
+			<!--DB에서 불러와서 이곳에 로딩-->
 		</div>
 		<div class="list">
 			<div class="boardlist">
-				<!--지금은 전체 보드의 메모리스트가 다있고 숨겨져있지만 나중에 서버에서 보드리스트 클릭시 서버에서 가져오게-->
-				<div class="boardli">Board 1 (4)</div>
-				<div style="display: inline-block">
-					<div class="buttonzone">
-						<span class="material-icons add">note_add</span>
-						<span class="material-icons edit">edit</span>
-						<span class="material-icons dboard">close</span>
-					</div>
-					<ul class="memoli">
-						<li>Memo 1
-							<i class="material-icons star">star_border</i>
-							<i class="material-icons close">close</i>
-						</li>
-						<li>Memo 2
-							<i class="material-icons star">star_border</i>
-							<i class="material-icons close">close</i>
-						</li>
-						<li>Memo 3
-							<i class="material-icons star">star_border</i>
-							<i class="material-icons close">close</i>
-						</li>
-						<li>Memo 4
-							<i class="material-icons star">star_border</i>
-							<i class="material-icons close">close</i>
-						</li>
-					</ul>
-				</div>
-				<div class="boardli">Board 2 (3)</div>
-				<div style="display: inline-block">
-					<div class="buttonzone">
-						<span class="material-icons add">note_add</span>
-						<span class="material-icons edit">edit</span>
-						<span class="material-icons dboard">close</span>
-					</div>
-					<ul class="memoli">
-						<li>Memo 1
-							<i class="material-icons star">star_border</i>
-							<i class="material-icons close">close</i>
-						</li>
-						<li>Memo 2
-							<i class="material-icons star">star_border</i>
-							<i class="material-icons close">close</i>
-						</li>
-						<li>Memo 3
-							<i class="material-icons star">star_border</i>
-							<i class="material-icons close">close</i>
-						</li>
-					</ul>
-				</div>
-				<div class="boardli">Board 3 (1)</div>
-				<div style="display: inline-block">
-					<div class="buttonzone">
-						<span class="material-icons add">note_add</span>
-						<span class="material-icons edit">edit</span>
-						<span class="material-icons dboard">close</span>
-					</div>
-					<ul class="memoli">
-						<li>Memo 1
-							<i class="material-icons star">star_border</i>
-							<i class="material-icons close">close</i>
-						</li>
-					</ul>
-				</div>
+				<!--페이지 로딩시 DB에서 board와 memo불러와서 로딩-->
 			</div>
 			<div>
 				<!--클릭시 modal창 나와서 Board 추가할 수 있게 구현-->
 				<button id="addboard">Create New Board</button>
 			</div>
 		</div>
+
+
+		<!--만약에 class로 만들어서 안보이게 한다음에 사라졋다 생겻다 하게하면?-->
 		<div class="modal">
 			<form class="addmodal-content" action="javascript:void(0);">
 				<div class="header">
@@ -122,7 +64,8 @@
 			</form>
 		</div>
 	</div>
-	<script src="./js/12141562.js"></script>
+	<!--<script src="./js/12141562.js"></script>-->
+	<script src="./js/test.js"></script>
 </body>
 
 </html>

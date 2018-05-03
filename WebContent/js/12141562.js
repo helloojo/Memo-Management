@@ -6,7 +6,7 @@ var MemoManage = (function() {
 	var boardli = $(".boardli");
 	var boardArr = [];
 	//전체 보드 저장 배열
-	var boardidx = 0;
+	var boardcnt = 0;
 	//전체보드 수
 	var curBoard = 0;
 	//현재 출력중인 보드
@@ -60,9 +60,14 @@ var MemoManage = (function() {
 		this.buttonzone.append(this.edit);
 		this.buttonzone.append(this.close);
 	}
-	function memolist() {
+	function memolist(idx) {
 		this.memoli=$(document.createElement("ul"));
 		this.memoli.addClass("memoli");
+		this.memolistArr=[];
+		for(i=0;i<boardArr[idx].memocnt;i++) {
+			this.memolistArr[i]=new memoli(boardArr[idx].memoArr[i].title);
+			this.memoli.append(this.memolistArr[i].li);
+		}
 	}
 	function memoli(title) {
 		this.li=$(document.createElement("li"));
@@ -77,44 +82,38 @@ var MemoManage = (function() {
 		this.close.addClass("material-icons close").html("close");
 	}
 	function list(idx) {
+		this.boardidx=idx;
 		this.boardli=$(document.createElement("div"));
 		this.boardli.addClass("boardli");
 		this.boardli.html(boardArr[idx].boardname+" ("+boardArr[idx].memocnt+")")
 		this.div=$(document.createElement("div"));
 		this.btn=new btnzone();
 		this.div.append(this.btn.buttonzone);
-		this.list=new memolist();
+		this.list=new memolist(idx);
 		this.div.append(this.list.memoli);
 	}
+	function setEvent(list) {
+		list.btn.add.click(function() {
+		});
+		list.btn.edit.click(function() {
+		});
+		list.btn.close.click(function() {
+		});
+		for(i=0;i<boardArr[list.boardidx].memocnt;i++) {
+			list.list.memolistArr[i].btn.star.click(function() {
+			});
+			list.list.memolistArr[i].btn.close.click(function() {
+			});
+		}
+	}
 
+function addlist() {
 
-
+}
 
 //todo 리스트 가변으로 조작 시발! DB도 같이 연동
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 //test finish
-
-
-
-
 
 	//memo 생성시 색상 랜덤 결정 100000~F5AAA0
 	function getRandomColor() {
@@ -131,6 +130,7 @@ var MemoManage = (function() {
 	//modal창 submit시 board추가 후 modal창 사라짐(board추가 구현필요)
 	$(".sbbtn").click(function() {
 		$(".modal").css("display", "none");
+		boardArr[boardcnt]=generator.getNewBoard();
 	});
 
 	//modal창 임시 cancel 기능 구현
@@ -196,7 +196,7 @@ var MemoManage = (function() {
 	var generator = (function() {
 		//보드 생성자
 		function Board(attr) {
-			this.boardid = attr.id;
+			this.boardid = 0;
 			this.boardname = attr.name;
 			this.boardbgcolor = attr.color;
 			this.memoArr = [];
@@ -218,48 +218,48 @@ var MemoManage = (function() {
 			this.memoid=attr.mid;
 			this.boardid=attr.bid;
 
-			this.memo = $(document.createElement("div"));
-			this.memo.addClass("memo");
+			// this.memo = $(document.createElement("div"));
+			// this.memo.addClass("memo");
 
-			this.move = $(document.createElement("div"));
-			this.move.addClass("move");
+			// this.move = $(document.createElement("div"));
+			// this.move.addClass("move");
 
-			this.option = $(document.createElement("div"));
-			this.option.addClass("option");
+			// this.option = $(document.createElement("div"));
+			// this.option.addClass("option");
 
-			this.icon = $(document.createElement("i"));
-			this.icon.addClass("material-icons image").html("add_a_photo");
+			// this.icon = $(document.createElement("i"));
+			// this.icon.addClass("material-icons image").html("add_a_photo");
 
-			this.star = $(document.createElement("i"));
-			this.star.addClass("material-icons star").html("star_border");
+			// this.star = $(document.createElement("i"));
+			// this.star.addClass("material-icons star").html("star_border");
 
 			this.important = attr.important;
 
-			this.imageinput = $(document.createElement("input"));
-			this.imageinput.addClass("imageinput");
+			// this.imageinput = $(document.createElement("input"));
+			// this.imageinput.addClass("imageinput");
 
-			this.color = $(document.createElement("input"));
-			this.color.addClass("memobgcolor");
+			// this.color = $(document.createElement("input"));
+			// this.color.addClass("memobgcolor");
 
-			this.delete = $(document.createElement("i"));
-			this.delete.addClass("material-icons delete").html("delete");
+			// this.delete = $(document.createElement("i"));
+			// this.delete.addClass("material-icons delete").html("delete");
 
-			this.option.append(this.star).append(this.icon);
-			this.option.append(this.imageinput).append(this.color);
-			this.option.append(this.delete);
+			// this.option.append(this.star).append(this.icon);
+			// this.option.append(this.imageinput).append(this.color);
+			// this.option.append(this.delete);
 
-			this.title = $(document.createElement("input"));
-			this.title.addClass("title");
+			// this.title = $(document.createElement("input"));
+			// this.title.addClass("title");
 
-			this.image = $(document.createElement("img"));
-			this.image.addClass("imagearea");
+			// this.image = $(document.createElement("img"));
+			// this.image.addClass("imagearea");
 			//todo 입력받은 이미지 삽입, 이미지 클릭시 전체화면
 
-			this.content = $(document.createElement("textarea"));
-			this.content.addClass("content");
+			// this.content = $(document.createElement("textarea"));
+			// this.content.addClass("content");
 
-			this.time = $(document.createElement("div"));
-			this.time.addClass("time");
+			// this.time = $(document.createElement("div"));
+			// this.time.addClass("time");
 
 			this.move.append(this.option);
 			this.memo.append(this.move).append(this.title);
@@ -377,7 +377,7 @@ var MemoManage = (function() {
 	}
 
 	function getMemofromDB(index) {
-			$.getJSON("./getDate.jsp", { value: 1, boardid: boardArr[index].boardid }, function(data) {
+			$.getJSON("./getData.jsp", { value: 1, boardid: boardArr[index].boardid }, function(data) {
 				for (j = 0; j < data.length; j++) {
 					boardArr[index].add(data[j]);
 				}

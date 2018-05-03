@@ -138,14 +138,14 @@ body {
 	border: 2px inset #DDDDDD;
 }
 
-.delete {
+.remove {
 	margin-right: 0.4rem;
 	font-size: 1.7rem;
 	color: #EDEEF2;
 }
 
-.delete:hover,
-.delete:focus {
+.remove:hover,
+.remove:focus {
 	color: #f44336;
 	cursor: pointer;
 }
@@ -191,7 +191,7 @@ body {
 }
 
 .boardlist {
-	margin-top: 5rem;
+	margin-top: 4rem;
 	margin-left: 2rem;
 	color: #EDEEF2;
 }
@@ -224,8 +224,8 @@ body {
 .buttonzone {
 	display: inline-block;
 	position: relative;
-	top: -1.8rem;
-	left: 3rem;
+	top: -1.5rem;
+	left: 7rem;
 	font-size: 1.3rem;
 	font-weight: bold;
 	color: #EDEEF2;

@@ -7,12 +7,9 @@
 <%@ page import="inha.ac.kr.Memo"%>
 <%@ page import="inha.ac.kr.DBconn"%>
 <%@ page import="inha.ac.kr.Value"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
 	request.setCharacterEncoding("utf-8");
-	Connection conn = DBconn.getConnection();
-	Statement st = conn.createStatement();
 	int value = Integer.parseInt(request.getParameter("value"));
 	String title;
 	String content;
@@ -26,17 +23,20 @@
 	String important;
 	String sql = "";
 	String str="";
+	String boardname;
+	String boardbgcolor;
 	ResultSet rs=null;
 	StringBuilder json=null;
+	System.out.println(value+" Called!");
 	switch (value) {
 	case Value.GETBOARD:
 		str=Board.getBoard();
-		out.print(str);
+		%><%=str%><%
 		break;
 	case Value.GETMEMO:
 		boardid=request.getParameter("boardid");
 		str=Memo.getMemo(boardid);
-		out.print(str);
+		%><%=str%><%
 		break;
 	case Value.ADDMEMO:
 		boardid=request.getParameter("boardid");
@@ -92,6 +92,11 @@
 		Memo.deleteMemo(memoid);
 		break;
 	case Value.UPDATEBOARD:
+		break;
+	case Value.ADDBOARD:
+		boardname=request.getParameter("boardname");
+		boardbgcolor=request.getParameter("boardbgcolor");
+		Board.addBoard(boardname,boardbgcolor);
 		break;
 	default:
 		break;
