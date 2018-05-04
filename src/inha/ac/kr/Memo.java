@@ -74,7 +74,7 @@ public class Memo {
 		try {
 			conn = DBconn.getConnection();
 			st = conn.createStatement();
-			String sql = "Update memos set title=" + title + " where memoid=" + memoid;
+			String sql = "Update memos set title=\'" + title + "\' where memoid=" + memoid;
 			st.executeUpdate(sql);
 			DBconn.close();
 		} catch (ClassNotFoundException e) {
@@ -90,7 +90,7 @@ public class Memo {
 		try {
 			conn = DBconn.getConnection();
 			st = conn.createStatement();
-			String sql = "Update memos set content=" + content + " where memoid=" + memoid;
+			String sql = "Update memos set content=\'" + content + "\' where memoid=" + memoid;
 			st.executeUpdate(sql);
 			DBconn.close();
 		} catch (ClassNotFoundException e) {
@@ -106,7 +106,7 @@ public class Memo {
 		try {
 			conn = DBconn.getConnection();
 			st = conn.createStatement();
-			String sql = "Update memos set time=" + time + " where memoid=" + memoid;
+			String sql = "Update memos set time=\'" + time + "\' where memoid=" + memoid;
 			st.executeUpdate(sql);
 			DBconn.close();
 		} catch (ClassNotFoundException e) {
@@ -122,7 +122,7 @@ public class Memo {
 		try {
 			conn = DBconn.getConnection();
 			st = conn.createStatement();
-			String sql = "Update memos set bgcolor=" + bgcolor + " where memoid=" + memoid;
+			String sql = "Update memos set bgcolor=\'" + bgcolor + "\' where memoid=" + memoid;
 			st.executeUpdate(sql);
 			DBconn.close();
 		} catch (ClassNotFoundException e) {

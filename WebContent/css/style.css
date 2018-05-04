@@ -208,6 +208,11 @@ body {
 	transition: 0.2s;
 }
 
+.panel {
+	width: 90%;
+	display: inline-block;
+}
+
 .memoli {
 	cursor: pointer;
 	float: left;
@@ -227,7 +232,7 @@ body {
 	top: -1.5rem;
 	left: 7rem;
 	font-size: 1.3rem;
-	font-weight: bold;
+	font-weight: bold;	
 	color: #EDEEF2;
 }
 
