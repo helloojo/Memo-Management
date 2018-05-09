@@ -6,8 +6,8 @@
 	<title>Memo Manage Program</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, user-scalable=no">
-	<link rel="stylesheet" type="text/css" href="./css/icon.css">
-	<link rel="stylesheet" type="text/css" href="./css/style.css">
+	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/icon.css">
+	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/style.css">
 	<script src="./js/jquery-3.3.1.min.js"></script>
 	<script src="./js/jquery-ui.min.js"></script>
 </head>
@@ -20,7 +20,6 @@
 		</div>
 		<div class="searchresult"></div>
 		<div class="board">
-			<!--현재 자바스크립트로 이곳에 메모리스트 넣음-->
 			<!--DB에서 불러와서 이곳에 로딩-->
 		</div>
 		<div class="list">
@@ -28,11 +27,9 @@
 				<!--페이지 로딩시 DB에서 board와 memo불러와서 로딩-->
 			</div>
 			<div>
-				<!--클릭시 modal창 나와서 Board 추가할 수 있게 구현-->
 				<button id="addboard">Create New Board</button>
 			</div>
 		</div>
-		<!--만약에 class로 만들어서 안보이게 한다음에 사라졋다 생겻다 하게하면?-->
 		<div class="modal">
 			<form class="addmodal-content" action="javascript:void(0);">
 				<div class="header">
@@ -43,11 +40,6 @@
 					<div class="namesec">
 						<label class="name">Name
 							<input type="text" name="name">
-						</label>
-					</div>
-					<div class="colorsec">
-						<label class="color">Background Color
-							<input type="color" name="boardbgcolor">
 						</label>
 					</div>
 				</div>
@@ -63,8 +55,7 @@
 			</form>
 		</div>
 	</div>
-	<!--<script src="./js/12141562.js"></script>-->
-	<script src="./js/test.js"></script>
+	<script src="${pageContext.request.contextPath}/js/test.js"></script>
 </body>
 
 </html>

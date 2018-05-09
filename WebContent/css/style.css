@@ -215,11 +215,12 @@ body {
 
 .memoli {
 	cursor: pointer;
-	float: left;
-	list-style: none;
-	font-size: 1.1rem;
-	padding: 0 2rem;
-	margin: 0.4rem 0;
+    list-style: none;
+    font-size: 1.1rem;
+    padding: 0;
+    margin: 0;
+    position: relative;
+    right: 0.5rem;
 }
 
 .memoli > li {
@@ -230,7 +231,7 @@ body {
 	display: inline-block;
 	position: relative;
 	top: -1.5rem;
-	left: 7rem;
+	left: 15rem;
 	font-size: 1.3rem;
 	font-weight: bold;	
 	color: #EDEEF2;
@@ -255,8 +256,8 @@ li > .star {
 
 li > .star, li > .close {
 	position: relative;
-	left: 10.5rem;
-	top: 0.4rem;
+	left: 17rem;
+	top: 0.3rem;
 }
 
 #addboard {
@@ -347,43 +348,7 @@ li > .star, li > .close {
 
 input[name="name"] {
 	margin-left: 6.5rem;
-	width: 20%;
-	transition: 0.4s ease-in-out;
-}
-
-input[name="name"]:focus {
 	width: 65%;
-}
-
-.colorsec {
-	padding: 2.5%;
-}
-
-input[name="boardbgcolor"] {
-	-webkit-appearance: none;
-	display: inline-block;
-	width: 30px;
-	height: 30px;
-	border: 0;
-	border-radius: 50%;
-	cursor: pointer;
-	position: relative;
-	top: 0.4rem;
-	left: 1rem;
-}
-
-input[name="boardbgcolor"]::-webkit-color-swatch-wrapper {
-	padding: 0;
-}
-
-input[name="boardbgcolor"]::-webkit-color-swatch {
-	border: 2px ridge #DDDDDD;
-	border-radius: 50%;
-}
-
-input[name="boardbgcolor"]::-webkit-color-swatch:hover,
-input[name="boardbgcolor"]::-webkit-color-swatch:focus {
-	border: 2px inset #DDDDDD;
 }
 
 .btsection {

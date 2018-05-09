@@ -19,12 +19,11 @@
 	String bgcolor;
 	String x;
 	String y;
-	String imageid;
+	String imagepath;
 	String important;
 	String sql = "";
 	String str="";
 	String boardname;
-	String boardbgcolor;
 	ResultSet rs=null;
 	StringBuilder json=null;
 	System.out.println(value+" Called!");
@@ -44,26 +43,23 @@
 		content=request.getParameter("content");
 		time=request.getParameter("time");
 		bgcolor=request.getParameter("bgcolor");
-		imageid=request.getParameter("imageid");
+		imagepath=request.getParameter("imagepath");
 		important=request.getParameter("important");
 		x=request.getParameter("x");
 		y=request.getParameter("y");
-		Memo.addMemo(boardid,title,content,time,bgcolor,imageid,important,x,y);
+		Memo.addMemo(boardid,title,content,time,bgcolor,imagepath,important,x,y);
 		break;
 	case Value.UPDATEMEMOTITLE:
 		memoid=request.getParameter("memoid");
 		title=request.getParameter("title");
-		Memo.updateMemoTitle(memoid, title);
+		time=request.getParameter("time");
+		Memo.updateMemoTitle(memoid, title, time);
 		break;
 	case Value.UPDATEMEMOCONTENT:
 		memoid=request.getParameter("memoid");
 		content=request.getParameter("content");
-		Memo.updateMemoContent(memoid, content);
-		break;
-	case Value.UPDATEMEMOTIME:
-		memoid=request.getParameter("memoid");
 		time=request.getParameter("time");
-		Memo.updateMemoTime(memoid, time);
+		Memo.updateMemoContent(memoid, content, time);
 		break;
 	case Value.UPDATEMEMOCOLOR:
 		memoid=request.getParameter("memoid");
@@ -82,6 +78,9 @@
 		Memo.updateMemoImportant(memoid, important);
 		break;
 	case Value.UPDATEMEMOIMAGE:
+		memoid=request.getParameter("memoid");
+		imagepath=request.getParameter("imagepath");
+		Memo.updateMemoImage(memoid, imagepath);
 		break;
 	case Value.DELETEBOARD:
 		boardid=request.getParameter("boardid");
@@ -92,11 +91,13 @@
 		Memo.deleteMemo(memoid);
 		break;
 	case Value.UPDATEBOARD:
+		boardid=request.getParameter("boardid");
+		boardname=request.getParameter("boardname");
+		Board.updateBoard(boardid, boardname);
 		break;
 	case Value.ADDBOARD:
 		boardname=request.getParameter("boardname");
-		boardbgcolor=request.getParameter("boardbgcolor");
-		Board.addBoard(boardname,boardbgcolor);
+		Board.addBoard(boardname);
 		break;
 	default:
 		break;
