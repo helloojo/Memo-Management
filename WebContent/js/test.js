@@ -1,33 +1,33 @@
 var MemoManage = (function() {
 	var $board = $(".board");
+	var $boardlist=$(".boardlist");
 	var curboard = -1;
-	var memoStr = '<div class="memo">' +
-		'<div class="move">' +
-		'<div class="option">' +
-		'<i class="material-icons star">star_border</i>' +
-		'<i class="material-icons image">add_a_photo</i>' +
-		'<input class="imageinput" type="file" name="image" accept="image/*">' +
-		'<input class="memobgcolor" type="color" name="color" value="#FFFFFF">' +
-		'<i class="material-icons remove">delete</i>' +
-		'</div></div>' +
-		'<input class="title" value="Title"><hr>' +
-		'<img class="imagearea" src=\"\">' +
-		'<textarea class="content">Content</textarea>' +
-		'<div class="time"></div></div>';
+	var memoStr = '<div class="memo">'
+			+ '<div class="move">'
+			+ '<div class="option">'
+			+ '<i class="material-icons star">star_border</i>'
+			+ '<i class="material-icons image">add_a_photo</i>'
+			+ '<input class="imageinput" type="file" name="image" accept="image/*">'
+			+ '<input class="memobgcolor" type="color" name="color" value="#FFFFFF">'
+			+ '<i class="material-icons remove">delete</i>' + '</div></div>'
+			+ '<input class="title" value="Title"><hr>'
+			+ '<img class="imagearea" src=\"\">'
+			+ '<textarea class="content">Content</textarea>'
+			+ '<div class="time"></div></div>';
 	var listStr = '<div class="boardli"></div>';
-	var btnzoneStr = '<div class="buttonzone">' +
-		'<span class="material-icons add">note_add</span>' +
-		'<span class="material-icons edit">edit</span>' +
-		'<span class="material-icons dboard">close</span></div>';
+	var btnzoneStr = '<div class="buttonzone">'
+			+ '<span class="material-icons add">note_add</span>'
+			+ '<span class="material-icons edit">edit</span>'
+			+ '<span class="material-icons dboard">close</span></div>';
 	var memolistStr = '<ul class="memoli"></ul>';
-	var memoliStr = '<li><i class="material-icons star">star_border</i>' +
-		'<i class="material-icons close">close</i></li>';
-
+	var memoliStr = '<li><i class="material-icons star">star_border</i>'
+			+ '<i class="material-icons close">close</i></li>';
+	var index = 0;
 	$(".sbbtn").click(function() {
 		var boardname = $("input[name=name]").val();
 		addBoardToDB(boardname);
 		$(".modal").css("display", "none");
-		makeList();		//여기도 동기처리로 성능문제
+		getBoardandMemofromDB();
 	});
 	$(".ccbtn").click(function() {
 		$(".modal").css("display", "none");
@@ -39,8 +39,18 @@ var MemoManage = (function() {
 		$(".header > h3").html("Create New Board");
 		$(".sbbtn").attr("value", "Create");
 	});
+	$(".boardlist").accordion({
+		header : "div.boardli",
+		heightStyle : "content",
+		active : index,
+		activate : function(event, ui) { // 클릭시 보드안에 저장되있는 메모 출력
+			index = ui.newHeader.index() / 2;
+			curboard = ui.newPanel.data("boardid");
+			print(curboard); // 성능문제
+		}
+	});
 
-	//n을 앞에 0이 있게 digits 자리 수로 만드는 함수
+	// n을 앞에 0이 있게 digits 자리 수로 만드는 함수
 	function format(n, digits) {
 		var zero = "";
 		n = n.toString();
@@ -52,44 +62,43 @@ var MemoManage = (function() {
 		return zero + n;
 	}
 
-	//memo 생성시 색상 랜덤 결정 100000~F5AAA0
+	// memo 생성시 색상 랜덤 결정 100000~F5AAA0
 	function getRandomColor() {
-		return "#" + format(Math.floor((Math.random() * 15000000) + 777777).toString(16), 6);
+		return "#"
+				+ format(Math.floor((Math.random() * 15000000) + 777777)
+						.toString(16), 6);
 	}
 
 	function setRandomPos() {
 		return {
-			x: Math.floor(Math.random() * ($board[0].clientWidth - 300)),
-			y: Math.floor(Math.random() * ($board[0].clientHeight - 350)) + 50
+			x : Math.floor(Math.random() * ($board[0].clientWidth - 300)),
+			y : Math.floor(Math.random() * ($board[0].clientHeight - 350)) + 50
 		};
 	}
 
-	//현재날짜, 시간 구하는 함수 (yyyy-mm-dd hh:mm:ss)
+	// 현재날짜, 시간 구하는 함수 (yyyy-mm-dd hh:mm:ss)
 	function getTime() {
 		var d = new Date();
-		var s =
-			format(d.getFullYear(), 4) + "-" +
-			format(d.getMonth() + 1, 2) + "-" +
-			format(d.getDate(), 2) + " " +
-			format(d.getHours(), 2) + ":" +
-			format(d.getMinutes(), 2) + ":" +
-			format(d.getSeconds(), 2);
+		var s = format(d.getFullYear(), 4) + "-" + format(d.getMonth() + 1, 2)
+				+ "-" + format(d.getDate(), 2) + " " + format(d.getHours(), 2)
+				+ ":" + format(d.getMinutes(), 2) + ":"
+				+ format(d.getSeconds(), 2);
 		return s;
 	}
 
-	function makeList() {
+	function makeList2(board, memo) {
 		$(".boardlist").empty();
-		var board = getBoardfromDB();
-		var memo = null;
 		var list = null;
 		var panel = null;
 		var btn = null;
 		var memolist = null;
-		for (var i in board) {
+		for ( var i in board) {
 			if (curboard == -1) {
 				curboard = board[i].id;
 			}
-			memo = getMemofromDB(board[i].id);
+			if (curboard == board[i].id) {
+				print2(memo, board[i].id);
+			}
 			list = $(listStr);
 			list.html(board[i].name);
 			panel = $("<div class=\"panel\"></div>");
@@ -97,21 +106,17 @@ var MemoManage = (function() {
 			btn = $(btnzoneStr);
 			memolist = $(memolistStr);
 			setBoardListEvent(btn);
-			for (var j in memo) {
-				memolist.append(addMemoList(memo[j]));
+			for ( var j in memo) {
+				if (memo[j].bid == board[i].id) {
+					memolist.append(addMemoList(memo[j]));
+				}
 			}
 			panel.append(btn).append(memolist);
 			$(".boardlist").append(list);
 			$(".boardlist").append(panel);
 		}
-		$(".boardlist").accordion({
-			header: "div.boardli",
-			heightStyle: "content",
-			activate: function(event, ui) { //클릭시 보드안에 저장되있는 메모 출력
-				curboard = ui.newPanel.data("boardid");
-				print(curboard);		//성능문제
-			}
-		});
+		$(".boardlist").accordion("refresh");
+		$(".boardlist").accordion("option", "active", index);
 	}
 
 	function setBoardListEvent(btn) {
@@ -121,15 +126,25 @@ var MemoManage = (function() {
 		add.click(function() {
 			addMemo($(this).parent().parent().data("boardid"));
 		});
-		edit.click(function() {});		//edit구현 필요
+		edit.click(function() {
+		}); // edit구현 필요
 		dboard.click(function() {
 			var boardid = $(this).parent().parent().data("boardid");
+			var panel = $(this).parent().parent();
+			var list = $(this).parent().parent().prev();
 			deleteBoardinDB(boardid);
-			if (curboard == boardid) {
-				curboard = -1;
+			panel.remove();
+			list.remove();
+			curboard = $(".boardlist").find(".panel").data("boardid");
+			console.log(curboard);
+			if (curboard != null) {
+				index = 0;
+				$(".boardlist").accordion("refresh");
+				$(".boardlist").accordion("option", "active", index);
+				print(curboard);
+			} else {
+				$(".memo").remove();
 			}
-			makeList();		//성능굉장히 문제
-			print(curboard);
 		});
 	}
 
@@ -152,19 +167,19 @@ var MemoManage = (function() {
 		star.click(function() {
 			memoli.data("important", !memoli.data("important"));
 			updateMemoImportant(memoli);
-			var $memo=$(".memo");
-			var memoid=memoli.data("memoid");
-			for(var i in $memo) {
-				var $find=$($memo[i]);
-				if($find.data("memoid")==memoid) {
-					$find.data("important",memoli.data("important"));
-					if(memoli.data("important")) {
+			var $memo = $(".memo");
+			var memoid = memoli.data("memoid");
+			for ( var i in $memo) {
+				var $find = $($memo[i]);
+				if ($find.data("memoid") == memoid) {
+					$find.data("important", memoli.data("important"));
+					if (memoli.data("important")) {
 						star.html("star");
 						$find.find(".star").html("star");
 					} else {
 						star.html("star_border");
 						$find.find(".star").html("star_border");
-					}					
+					}
 					break;
 				}
 			}
@@ -175,18 +190,21 @@ var MemoManage = (function() {
 	}
 
 	function print(boardid) {
-		if (boardid == -1) return;
+		if (boardid == -1)
+			return;
 		$(".memo").remove();
 		var memo = getMemofromDB(boardid);
-		for (var i in memo) {
+		for ( var i in memo) {
 			var data = memo[i];
 			var $memo = $(memoStr);
 			$memo.data("memoid", data.mid);
-			$memo.data("bgcolor",data.bgcolor);
+			$memo.data("bgcolor", data.bgcolor);
 			$memo.data("imagepath", data.imagepath);
 			$memo.data("important", data.important);
-			$memo.find(".title").val(data.title).css("background", data.bgcolor);
-			$memo.find(".content").html(data.content).css("background", data.bgcolor);
+			$memo.find(".title").val(data.title)
+					.css("background", data.bgcolor);
+			$memo.find(".content").html(data.content).css("background",
+					data.bgcolor);
 			$memo.find(".time").html(data.time);
 			$memo.find(".memobgcolor").val(data.bgcolor);
 			$memo.css("background-color", data.bgcolor);
@@ -195,10 +213,42 @@ var MemoManage = (function() {
 			}
 			setMemoEvent($memo);
 			$memo.offset({
-				left: data.x,
-				top: data.y
+				left : data.x,
+				top : data.y
 			});
 			$board.append($memo);
+		}
+	}
+	function print2(memo, boardid) {
+		$(".memo").remove();
+		for ( var i in memo) {
+			var data = memo[i];
+			if (data.bid == boardid) {
+				var $memo = $(memoStr);
+				$memo.data("memoid", data.mid);
+				$memo.data("bgcolor", data.bgcolor);
+				$memo.data("imagepath", data.imagepath);
+				$memo.data("important", data.important);
+				$memo.find(".title").val(data.title).css("background",
+						data.bgcolor);
+				$memo.find(".content").html(data.content).css("background",
+						data.bgcolor);
+				$memo.find(".time").html(data.time);
+				$memo.find(".memobgcolor").val(data.bgcolor);
+				if(data.imagepath!="null") {
+					$memo.find(".imagearea").attr("src",data.imagepath);
+				}
+				$memo.css("background-color", data.bgcolor);
+				if (data.important) {
+					$memo.find(".star").html("star");
+				}
+				setMemoEvent($memo);
+				$memo.offset({
+					left : data.x,
+					top : data.y
+				});
+				$board.append($memo);
+			}
 		}
 	}
 
@@ -217,13 +267,13 @@ var MemoManage = (function() {
 		star.click(function() {
 			memo.data("important", !memo.data("important"));
 			updateMemoImportant(memo);
-			var $memoli=$("li");
-			var memoid=memo.data("memoid");
-			for(var i in $memoli) {
-				var $find=$($memoli[i]);
-				if($find.data("memoid")==memoid) {
-					$find.data("important",memo.data("important"));
-					if(memo.data("important")) {
+			var $memoli = $("li");
+			var memoid = memo.data("memoid");
+			for ( var i in $memoli) {
+				var $find = $($memoli[i]);
+				if ($find.data("memoid") == memoid) {
+					$find.data("important", memo.data("important"));
+					if (memo.data("important")) {
 						star.html("star");
 						$find.find(".star").html("star");
 					} else {
@@ -236,46 +286,41 @@ var MemoManage = (function() {
 		});
 		image.click(function() {
 			imageinput.click();
-		})
-		imageinput.submit(function(e) {
-			//todo image upload 기능 구현
-			// $.ajax({
-			// 	url: "",
-			// 	type: "POST",
-			// 	data:"",
-			// 	contentType: "multipart/form-data",
-			// 	processData: false,
-			// 	success: function() {
-			// 	}
-			// });
-		})
+		});
+		imageinput.change(function(e) {
+			// todo image upload 기능 구현
+			var file = new FormData();
+			file.append("img",imageinput[0].files[0]);
+			console.log(file);
+			uploadImage(memo, file);
+		});
 		content.keyup(function() {
 			adjustContent($(this));
 		});
 		color.change(function() {
-			var bg=color.val();
-			memo.data("bgcolor",bg);
+			var bg = color.val();
+			memo.data("bgcolor", bg);
 			memo.css("background-color", bg);
 			title.css("background-color", bg);
 			content.css("background-color", bg);
 			updateMemoColor(memo);
 		});
 		title.focusin(function() {
-			$(this.parentElement).css("z-index", 987654);
+			$(this.parentElement).css("z-index", 98765);
 		});
 		content.focusin(function() {
-			$(this.parentElement).css("z-index", 987654);
+			$(this.parentElement).css("z-index", 98765);
 		});
 		title.focusout(function() {
-			$(this.parentElement).css("z-index", 98765);
+			$(this.parentElement).css("z-index", 9876);
 			if (title.val() != title.attr("value")) {
 				time.html(getTime());
 				title.attr("value", title.val());
-				var $memoli=$("li");
-				var memoid=memo.data("memoid");
-				for(var i in $memoli) {
-					if($($memoli[i]).data("memoid")==memoid) {
-						$memoli[i].lastChild.data=title.val();
+				var $memoli = $("li");
+				var memoid = memo.data("memoid");
+				for ( var i in $memoli) {
+					if ($($memoli[i]).data("memoid") == memoid) {
+						$memoli[i].lastChild.data = title.val();
 						break;
 					}
 				}
@@ -283,7 +328,7 @@ var MemoManage = (function() {
 			}
 		});
 		content.focusout(function() {
-			$(this.parentElement).css("z-index", 98765);
+			$(this.parentElement).css("z-index", 9876);
 			if (content.val() != content.html()) {
 				time.html(getTime());
 				content.html(content.val());
@@ -291,12 +336,15 @@ var MemoManage = (function() {
 			}
 		});
 		memo.mousedown().draggable({
-			handle: ".move",
-			stack: ".board div",
-			containment: "parent",
-			scroll: false,
-			stop: function(event, ui) {
-				var coor = { x: ui.position.left, y: ui.position.top };
+			handle : ".move",
+			stack : ".board div",
+			containment : "parent",
+			scroll : false,
+			stop : function(event, ui) {
+				var coor = {
+					x : ui.position.left,
+					y : ui.position.top
+				};
 				updateMemoCoordinate($(this), coor);
 			}
 		}).css("position", "absolute");
@@ -315,48 +363,88 @@ var MemoManage = (function() {
 
 	function addMemo(boardid) {
 		addMemoToDB(boardid);
-		if (curboard == boardid) {	//성능문제
-			makeList();
-			print(boardid);
-		}
 	}
 
 	function deleteMemo(memo) {
 		var memoid = memo.data("memoid");
 		var boardid = memo.data("boardid");
-		deleteMemoinDB(memoid);
-		if (curboard == boardid) {
-			makeList();
-			print(curboard);		//성능문제
+		if (memo[0].nodeName == "DIV") {
+			memo.remove();
+			var $memoli = $("li");
+			for ( var i in $memoli) {
+				var $find = $($memoli[i]);
+				if ($find.data("memoid") == memoid) {
+					$find.remove();
+					break;
+				}
+			}
+		} else {
+			memo.remove();
+			var $memo = $(".memo");
+			for ( var i in $memo) {
+				var $find = $($memo[i]);
+				if ($find.data("memoid") == memoid) {
+					$find.remove();
+					break;
+				}
+			}
 		}
+		deleteMemoinDB(memoid);
 	}
 
-	//DB Connection
-	function getBoardfromDB() {
-		var board;
+	function uploadImage(memo, image) {
 		$.ajax({
-			url: "./getData.jsp",
-			datatype: "json",
-			async: false,			//비동기로 처리하는 법을 생각해야함
-			data: { value: 0 },
-			success: function(data) {
-				board = $.parseJSON(data);
+			url : "./upload.jsp",
+			type : "POST",
+			data : image,
+			contentType : "multipart/form-data",
+			cache : false,
+			processData : false,
+			success : function(path) {
+				$.trim(path);
+				memo.data("imagepath",path);
+				memo.find(".imagearea").attr("src",path);
+				updateMemoImage(memo);
 			}
 		});
-		return board;
+	}
+
+	function deleteBoard(boardid) {
+
+	}
+
+	// DB Connection
+	function getBoardandMemofromDB() {
+		$.ajax({
+			url : "./getData.jsp",
+			datatype : "json",
+			data : {
+				value : 0
+			},
+			beforeSend : function() {
+				$("#loading").css("display", "block");
+			},
+			success : function(data) {
+				$("#loading").css("display", "none");
+				data = $.parseJSON(data);
+				makeList2(data.board, data.memo);
+			}
+		});
 	}
 
 	function getMemofromDB(boardid) {
+		$("#loading").css("display", "block");
 		var memo;
 		$.ajax({
-			url: "./getData.jsp",
-			datatype: "json",
-			async: false,			//비동기 처리 생각
-			data: {
-				value: 1,
-				boardid: boardid
+			url : "./getData.jsp",
+			datatype : "json",
+			async : false,
+			data : {
+				value : 1,
+				boardid : boardid
 			},
-			success: function(data) {
+			success : function(data) {
+				$("#loading").css("display", "none");
 				memo = $.parseJSON(data);
 			}
 		});
@@ -364,147 +452,154 @@ var MemoManage = (function() {
 	}
 
 	function addBoardToDB(boardname) {
+		$("#loading").css("display", "block");
 		$.ajax({
-			url: "./getData.jsp",
-			data: {
-				value: 2,
-				boardname: boardname
+			url : "./getData.jsp",
+			data : {
+				value : 2,
+				boardname : boardname
 			},
-			async: false
+			success : function() {
+				$("#loading").css("display", "none");
+				getBoardandMemofromDB();
+			}
 		});
 	}
 
 	function addMemoToDB(boardid) {
 		var coor = setRandomPos();
+		$("#loading").css("display", "block");
 		$.ajax({
-			url: "./getData.jsp",
-			data: {
-				value: 3,
-				boardid: boardid,
-				title: "Title",
-				content: "Content",
-				time: getTime(),
-				bgcolor: getRandomColor(),
-				imagepath: null,
-				important: false,
-				x: coor.x,
-				y: coor.y
+			url : "./getData.jsp",
+			data : {
+				value : 3,
+				boardid : boardid,
+				title : "Title",
+				content : "Content",
+				time : getTime(),
+				bgcolor : getRandomColor(),
+				imagepath : null,
+				important : false,
+				x : coor.x,
+				y : coor.y
 			},
-			async: false,
-			success: function() {
+			success : function() {
+				$("#loading").css("display", "none");
+				getBoardandMemofromDB();
 			}
 		});
 	}
 
 	function deleteBoardinDB(boardid) {
 		$.ajax({
-			url: "./getData.jsp",
-			data: {
-				value: 4,
-				boardid: boardid
+			url : "./getData.jsp",
+			data : {
+				value : 4,
+				boardid : boardid
 			}
 		});
 	}
 
 	function deleteMemoinDB(memoid) {
 		$.ajax({
-			url: "./getData.jsp",
-			data: {
-				value: 5,
-				memoid: memoid
+			url : "./getData.jsp",
+			data : {
+				value : 5,
+				memoid : memoid
 			}
 		});
 	}
 
-	function updateBoardinDB(boardid,boardname) {
+	function updateBoardinDB(boardid, boardname) {
 		$.ajax({
-			url: "./getData.jsp",
-			data: {
-				value: 6,
-				boardid: boardid,
-				boardname: boardname
+			url : "./getData.jsp",
+			data : {
+				value : 6,
+				boardid : boardid,
+				boardname : boardname
 			}
 		});
 	}
 
 	function updateMemoTitle(memo) {
 		$.ajax({
-			url: "./getData.jsp",
-			data: {
-				value: 7,
-				memoid: memo.data("memoid"),
-				title: memo.find(".title").val(),
-				time: memo.find(".time").html()
+			url : "./getData.jsp",
+			data : {
+				value : 7,
+				memoid : memo.data("memoid"),
+				title : memo.find(".title").val(),
+				time : memo.find(".time").html()
 			}
 		});
 	}
 
 	function updateMemoContent(memo) {
 		$.ajax({
-			url: "./getData.jsp",
-			data: {
-				value: 8,
-				memoid: memo.data("memoid"),
-				content: memo.find(".content").val(),
-				time: memo.find(".time").html()
+			url : "./getData.jsp",
+			data : {
+				value : 8,
+				memoid : memo.data("memoid"),
+				content : memo.find(".content").val(),
+				time : memo.find(".time").html()
 			}
 		});
 	}
 
 	function updateMemoColor(memo) {
 		$.ajax({
-			url: "./getData.jsp",
-			data: {
-				value: 9,
-				memoid: memo.data("memoid"),
-				bgcolor: memo.data("bgcolor")
+			url : "./getData.jsp",
+			data : {
+				value : 9,
+				memoid : memo.data("memoid"),
+				bgcolor : memo.data("bgcolor")
 			}
 		});
 	}
 
 	function updateMemoCoordinate(memo, coor) {
 		$.ajax({
-			url: "./getData.jsp",
-			data: {
-				value: 10,
-				memoid: memo.data("memoid"),
-				x: coor.x,
-				y: coor.y
+			url : "./getData.jsp",
+			data : {
+				value : 10,
+				memoid : memo.data("memoid"),
+				x : coor.x,
+				y : coor.y
 			}
 		});
 	}
 
 	function updateMemoImportant(memo) {
 		$.ajax({
-			url: "./getData.jsp",
-			data: {
-				value: 11,
-				memoid: memo.data("memoid"),
-				important: memo.data("important")
+			url : "./getData.jsp",
+			data : {
+				value : 11,
+				memoid : memo.data("memoid"),
+				important : memo.data("important")
 			}
 		});
 	}
-	
+
 	function updateMemoImage(memo) {
 		$.ajax({
-			url: "./getData.jsp",
-			data: {
-				value: 12,
-				memoid: memo.data("memoid"),
-				imagepath: memo.data("imagepath")
+			url : "./getData.jsp",
+			data : {
+				value : 12,
+				memoid : memo.data("memoid"),
+				imagepath : memo.data("imagepath")
 			}
 		});
 	}
 
 	return {
-		init: function() {
-			//문제: 초기 DB를 불러오는 시간이 너무 오래걸림
-			makeList();
-			print(curboard);
+		init : function() {
+			$.ajaxSetup({
+				type: "POST"
+			})
+			getBoardandMemofromDB();
 		}
 	};
 })();
 
-$(document).ready(function() {
+window.onload = function() {
 	MemoManage.init();
-});
+}

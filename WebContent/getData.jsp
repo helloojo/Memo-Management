@@ -28,8 +28,12 @@
 	StringBuilder json=null;
 	System.out.println(value+" Called!");
 	switch (value) {
-	case Value.GETBOARD:
-		str=Board.getBoard();
+	case Value.GETBOARDANDMEMO:
+		str="{ \"board\": ";
+		str+=Board.getBoard();
+		str+=", \"memo\": ";
+		str+=Memo.getAllMemo();
+		str+="}";
 		%><%=str%><%
 		break;
 	case Value.GETMEMO:

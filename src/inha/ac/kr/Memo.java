@@ -3,6 +3,50 @@ package inha.ac.kr;
 import java.sql.*;
 
 public class Memo {
+	public static String getAllMemo() {
+		Connection conn = null;
+		Statement st;
+		String str = "";
+		try {
+			while (conn == null) {
+				conn = DBconn.getConnection();
+			}
+			st = conn.createStatement();
+			String sql = "Select * from memos";
+			ResultSet rs = st.executeQuery(sql);
+			str = "[";
+			if (!rs.first()) {
+				str += "]";
+			}
+			rs.beforeFirst();
+			while (rs.next()) {
+				int r_mID = rs.getInt("memoid");
+				int r_bID = rs.getInt("boardid");
+				String r_title = rs.getString("title");
+				String r_content = rs.getString("content");
+				String r_time = rs.getString("time");
+				String r_color = rs.getString("bgcolor");
+				String r_imgpath = rs.getString("imagepath");
+				boolean r_imp = rs.getBoolean("important");
+				int r_x = rs.getInt("x");
+				int r_y = rs.getInt("y");
+				str += "{" + "\"mid\": " + r_mID + "," + "\"bid\": " + r_bID + "," + "\"title\": \"" + r_title + "\","
+						+ "\"content\": \"" + r_content + "\"," + "\"time\": \"" + r_time + "\"," + "\"bgcolor\": \""
+						+ r_color + "\"," + "\"important\": " + r_imp + "," + "\"imagepath\": \"" + r_imgpath
+						+ "\",\"x\": " + r_x + ",\"y\": " + r_y + "}";
+				str += ",";
+			}
+			DBconn.close();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		StringBuilder json = new StringBuilder(str);
+		json.setCharAt(str.length() - 1, ']');
+		str = json.toString();
+		return str;
+	}
 	public static String getMemo(String boardid) {
 		Connection conn = null;
 		Statement st;

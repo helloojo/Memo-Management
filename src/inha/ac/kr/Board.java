@@ -34,7 +34,6 @@ public class Board {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		System.out.println(str);
 		StringBuilder json = new StringBuilder(str);
 		json.setCharAt(str.length() - 1, ']');
 		str = json.toString();

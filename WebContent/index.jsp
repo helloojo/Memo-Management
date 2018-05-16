@@ -55,6 +55,9 @@
 			</form>
 		</div>
 	</div>
+	<div id="loading">
+		<img id="loading-img" src="./image/loading.gif">
+	</div>
 	<script src="${pageContext.request.contextPath}/js/test.js"></script>
 </body>
 

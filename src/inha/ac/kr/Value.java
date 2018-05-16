@@ -1,7 +1,7 @@
 package inha.ac.kr;
 
 public class Value {
-	public static final int GETBOARD=0;
+	public static final int GETBOARDANDMEMO=0;
 	public static final int GETMEMO=1;
 	public static final int ADDBOARD=2;
 	public static final int ADDMEMO=3;
