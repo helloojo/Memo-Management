@@ -214,7 +214,7 @@ public class Memo {
 				conn = DBconn.getConnection();
 			}
 			st = conn.createStatement();
-			String sql = "Update memos set imagepath=" + imagepath + " where memoid=" + memoid;
+			String sql = "Update memos set imagepath=\'" + imagepath + "\' where memoid=" + memoid;
 			st.executeUpdate(sql);
 			DBconn.close();
 		} catch (ClassNotFoundException e) {
