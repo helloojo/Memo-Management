@@ -7,6 +7,7 @@
 <%@ page import="inha.ac.kr.Memo"%>
 <%@ page import="inha.ac.kr.DBconn"%>
 <%@ page import="inha.ac.kr.Value"%>
+<%@ page import="inha.ac.kr.Content" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
 	request.setCharacterEncoding("utf-8");
@@ -102,6 +103,10 @@
 	case Value.ADDBOARD:
 		boardname=request.getParameter("boardname");
 		Board.addBoard(boardname);
+		break;
+	case Value.INIT:
+		str=Content.getContent();
+		%><%=str%><%
 		break;
 	default:
 		break;

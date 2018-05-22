@@ -14,4 +14,5 @@ public class Value {
 	public static final int UPDATEMEMOCOOR=10;
 	public static final int UPDATEMEMOIMP=11;
 	public static final int UPDATEMEMOIMAGE=12;
+	public static final int INIT=13;
 }

@@ -30,10 +30,10 @@ public class Memo {
 				boolean r_imp = rs.getBoolean("important");
 				int r_x = rs.getInt("x");
 				int r_y = rs.getInt("y");
-				str += "{" + "\"mid\": " + r_mID + "," + "\"bid\": " + r_bID + "," + "\"title\": \"" + r_title + "\","
-						+ "\"content\": \"" + r_content + "\"," + "\"time\": \"" + r_time + "\"," + "\"bgcolor\": \""
-						+ r_color + "\"," + "\"important\": " + r_imp + "," + "\"imagepath\": \"" + r_imgpath
-						+ "\",\"x\": " + r_x + ",\"y\": " + r_y + "}";
+				str += "{" + "\"mid\": " + r_mID + ",\"bid\": " + r_bID + ",\"title\": \"" + r_title
+						+ "\",\"content\": \"" + r_content + "\",\"time\": \"" + r_time + "\",\"bgcolor\": \"" + r_color
+						+ "\",\"important\": " + r_imp + ",\"imagepath\": \"" + r_imgpath + "\",\"x\": " + r_x
+						+ ",\"y\": " + r_y + "}";
 				str += ",";
 			}
 			DBconn.close();
@@ -47,6 +47,7 @@ public class Memo {
 		str = json.toString();
 		return str;
 	}
+
 	public static String getMemo(String boardid) {
 		Connection conn = null;
 		Statement st;
