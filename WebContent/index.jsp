@@ -53,7 +53,7 @@
 	<div id="loading">
 		<img id="loading-img" src="./image/loading.gif">
 	</div>
-	<script src="${pageContext.request.contextPath}/js/test.js"></script>
+	<script src="${pageContext.request.contextPath}/js/script.js"></script>
 </body>
 
 </html>

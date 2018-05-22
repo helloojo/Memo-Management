@@ -13,7 +13,6 @@ public class RandomFileRenamePolicy implements FileRenamePolicy{
 		int dot=name.lastIndexOf(".");
 		ext=name.substring(dot);
 		body=Long.toString(System.currentTimeMillis());
-		System.out.println(body+ext);
 		File rename=new File(f.getParent(),body+ext);
 		return rename;
 	}

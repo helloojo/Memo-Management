@@ -253,9 +253,15 @@ var MemoManage = (function() {
 			imageinput.click();
 		});
 		imageinput.change(function(e) {
-			var file = new FormData();
-			file.append("img", imageinput[0].files[0]);
-			uploadImage(memo, file);
+			if(imageinput[0].files[0]) {
+				var file = new FormData();
+				var imagepath=memo.data("imagepath");
+				if(imagepath!="null") {
+					deleteImage(imagepath);			//만약 기존 사진파일이 있으면 삭제
+				}
+				file.append("img", imageinput[0].files[0]);
+				uploadImage(memo, file);
+			}
 		});
 		content.keyup(function() {
 			adjustContent($(this));
@@ -331,6 +337,7 @@ var MemoManage = (function() {
 	function deleteMemo(memo) {
 		var memoid = memo.data("memoid");
 		var boardid = memo.data("boardid");
+		var imagepath=memo.data("imagepath");
 		if (memo[0].nodeName == "DIV") {
 			memo.remove();
 			var $memoli = $("li");
@@ -352,7 +359,17 @@ var MemoManage = (function() {
 				}
 			}
 		}
+		if(imagepath!="null") {
+			deleteImage(imagepath);			//만약 사진파일이 있으면 삭제
+		}
 		deleteMemoinDB(memoid);
+	}
+	
+	function deleteImage(path) {
+		$.ajax({
+			url: "./delete.jsp",
+			data: {path:path.slice(8)}
+		});
 	}
 
 	function uploadImage(memo, image) {

@@ -12,5 +12,4 @@ int maxsize=10*1024*1024;
 String uploadPath=context.getRealPath("image");
 MultipartRequest image=new MultipartRequest(request,uploadPath,maxsize,"utf-8",new RandomFileRenamePolicy());
 String path="./image/"+image.getFilesystemName("img");
-System.out.println(path);
 %><%=path%>
