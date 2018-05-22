@@ -43,11 +43,6 @@
 						</label>
 					</div>
 				</div>
-				<div class="formfordelete">
-					<div class="deletemessage">
-						All your memos will be deleted
-					</div>
-				</div>
 				<div class="btsection">
 					<input type="submit" value="Create" class="sbbtn">
 					<input type="reset" value="Cancel" class="ccbtn">

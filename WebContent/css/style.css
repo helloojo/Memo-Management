@@ -302,9 +302,9 @@ li > .star, li > .close {
 .addmodal-content {
 	position: relative;
 	width: 25%;
-	height: 30%;
+	height: 20%;
 	margin: auto;
-	top: 25%;
+	top: 30%;
 	background: #EDEEF2;
 	z-index: 98765432;
 	animation: 0.5s zoom-out;
@@ -332,27 +332,19 @@ li > .star, li > .close {
 	margin-top: 1rem;
 	border: 1px solid #272945;
 }
-.formfordelete {
-	margin-top: 1.7rem;
-	padding: 2.5%;
-	margin-bottom: 5.5rem;
-	text-align: center;
-	font-size: 1.3rem;
-	color: #F23369;
-}
 
 .namesec {
-	margin-top: 0.7rem;
 	padding: 2.5%;
+	font-size: 1.2rem;
 }
 
 input[name="name"] {
-	margin-left: 6.5rem;
+	float: right;
 	width: 65%;
 }
 
 .btsection {
-	margin-top: 10%;
+	margin-top: 4%;
 	width: 100%;
 	display: flex;
 	align-items: center;

@@ -1,27 +1,30 @@
 var MemoManage = (function() {
 	var $board = $(".board");
 	var $boardlist = $(".boardlist");
-	var curboard = -1;
+	var curboard = -1;		//현재 boardid
 	var memoStr;
 	var listStr;
 	var btnzoneStr;
 	var memoliStr;
-	var index = 0;
+	var index = 0;			//accordion index
 
 	// eventListener
 	$(".sbbtn").click(function() {
 		var boardname = $("input[name=name]").val();
-		addBoardToDB(boardname);
+		if($(this).attr("value")=="Create") {		//Board 추가
+			addBoardToDB(boardname);
+		} else {									//Board 수정
+			var boardid=$(this).data("boardid");
+			updateBoardinDB(boardid, boardname);
+		}
 		$(".modal").css("display", "none");
-		getBoardandMemofromDB();
 	});
 	$(".ccbtn").click(function() {
-		$(".modal").css("display", "none");
+		$(".modal").css("display", "none");			//modal창 취소
 	});
-	$("#addboard").click(function() {
+	$("#addboard").click(function() {				//modal창 board추가형식으로 변경
+		$("input[name=name]").val("");
 		$(".modal").css("display", "block");
-		$(".formforadd").css("display", "block");
-		$(".formfordelete").css("display", "none");
 		$(".header > h3").html("Create New Board");
 		$(".sbbtn").attr("value", "Create");
 	});
@@ -32,7 +35,7 @@ var MemoManage = (function() {
 		activate : function(event, ui) { // 클릭시 보드안에 저장되있는 메모 출력
 			index = ui.newHeader.index() / 2;
 			curboard = ui.newPanel.data("boardid");
-			print(curboard);
+			getMemofromDB(curboard);
 		}
 	});
 
@@ -72,18 +75,19 @@ var MemoManage = (function() {
 		return s;
 	}
 
-	function makelist(board, memo) {
-		$boardlist.empty();
+	function makelist(board, memo) {		//board list출력 함수
+		$boardlist.empty();			//list 지우기
 		var list = null;
 		var panel = null;
 		var btn = null;
 		var memolist = null;
 		for ( var i in board) {
 			if (curboard == -1) {
-				curboard = board[i].id;
+				curboard = board[i].id;			//초기상태일때 첫번째 board를 출력값으로 설정
+				index=0;
 			}
 			if (curboard == board[i].id) {
-				print2(memo, board[i].id);
+				print(memo, board[i].id);		//메모 출력
 			}
 			list = $(listStr);
 			list.html(board[i].name);
@@ -91,7 +95,7 @@ var MemoManage = (function() {
 			panel.data("boardid", board[i].id);
 			btn = $(btnzoneStr);
 			memolist = $(memolistStr);
-			setBoardListEvent(btn);
+			setBoardListEvent(btn);				//이벤트리스너 추가
 			for ( var j in memo) {
 				if (memo[j].bid == board[i].id) {
 					memolist.append(addMemoList(memo[j]));
@@ -101,7 +105,7 @@ var MemoManage = (function() {
 			$boardlist.append(list);
 			$boardlist.append(panel);
 		}
-		if($boardlist.accordion()) {
+		if($boardlist.accordion()) {		//새로운 DOM 요소가 추가되었으므로 accordion 이벤트 다시설정
 			$boardlist.accordion("destroy").accordion({
 				header : "div.boardli",
 				heightStyle : "content",
@@ -109,7 +113,7 @@ var MemoManage = (function() {
 				activate : function(event, ui) { // 클릭시 보드안에 저장되있는 메모 출력
 					index = ui.newHeader.index() / 2;
 					curboard = ui.newPanel.data("boardid");
-					print(curboard);
+					getMemofromDB(curboard);
 				}
 			});
 		}
@@ -120,24 +124,21 @@ var MemoManage = (function() {
 		var edit = btn.find(".edit");
 		var dboard = btn.find(".dboard");
 		add.click(function() {
-			addMemo($(this).parent().parent().data("boardid"));
+			addMemo($(this).parent().parent().data("boardid"));		//memo 추가
 		});
-		edit.click(function() {
-		}); // edit구현 필요
-		dboard.click(function() {
+		edit.click(function() {			//board 수정
 			var boardid = $(this).parent().parent().data("boardid");
-			var panel = $(this).parent().parent();
-			var list = $(this).parent().parent().prev();
-			deleteBoardinDB(boardid);
-			panel.remove();
-			list.remove();
-			curboard = $boardlist.find(".panel").data("boardid");
-			if (curboard != null) {
-				index = 0;
-				$boardlist.accordion("refresh");
-				$boardlist.accordion("option", "active", index);
-			} else {
-				$(".memo").remove();
+			var boardname=this.parentElement.parentElement.previousSibling.innerText;
+			$(".sbbtn").data("boardid",boardid);
+			$("input[name=name]").val(boardname);
+			$(".modal").css("display", "block");
+			$(".header > h3").html("Modify Board");
+			$(".sbbtn").attr("value", "Modify");
+		});
+		dboard.click(function() {		//사용자에게 확인 후 board 삭제
+			if(confirm("Are You Sure Delete this Board?\nAll your memos will be deleted")) {
+				var boardid = $(this).parent().parent().data("boardid");
+				deleteBoardinDB(boardid);
 			}
 		});
 	}
@@ -183,14 +184,7 @@ var MemoManage = (function() {
 		});
 	}
 
-	function print(boardid) {
-		if (boardid == -1)
-			return;
-		var memo = getMemofromDB(boardid);
-		print2(memo, boardid);
-	}
-
-	function print2(memo, boardid) {
+	function print(memo, boardid) {
 		$(".memo").remove();
 		for ( var i in memo) {
 			var data = memo[i];
@@ -398,21 +392,19 @@ var MemoManage = (function() {
 
 	function getMemofromDB(boardid) {
 		$("#loading").css("display", "block");
-		var memo;
 		$.ajax({
 			url : "./getData.jsp",
 			datatype : "json",
-			async : false,
 			data : {
 				value : 1,
 				boardid : boardid
 			},
 			success : function(data) {
+				data=$.parseJSON(data);
+				print(data,boardid);
 				$("#loading").css("display", "none");
-				memo = $.parseJSON(data);
 			}
 		});
-		return memo;
 	}
 
 	function addBoardToDB(boardname) {
@@ -460,6 +452,10 @@ var MemoManage = (function() {
 			data : {
 				value : 4,
 				boardid : boardid
+			},
+			success: function() {
+				curboard=-1;
+				getBoardandMemofromDB();
 			}
 		});
 	}
@@ -481,7 +477,8 @@ var MemoManage = (function() {
 				value : 6,
 				boardid : boardid,
 				boardname : boardname
-			}
+			},
+			success: getBoardandMemofromDB
 		});
 	}
 
