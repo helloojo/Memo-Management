@@ -15,9 +15,10 @@ public class Content {
 	private static String memolistStr = "<ul class=\\\"memoli\\\"></ul>";
 	private static String memoliStr = "<li><i class=\\\"material-icons star\\\">star_border</i>"
 			+ "<i class=\\\"material-icons close\\\">close</i></li>";
+	private static String searchRetStr = "<div class=\\\"search-result\\\">"+"<div class=\\\"search-title\\\"></div>"+"<div class=\\\"search-content\\\"></div></div>";
 	public static String getContent() {
 		String str = "{\"memoStr\": \"" + memoStr + "\",\"listStr\": \"" + listStr + "\",\"btnzoneStr\": \""
-				+ btnzoneStr + "\",\"memolistStr\": \"" + memolistStr + "\",\"memoliStr\": \"" + memoliStr + "\"}";
+				+ btnzoneStr + "\",\"memolistStr\": \"" + memolistStr + "\",\"memoliStr\": \"" + memoliStr + "\",\"searchRetStr\": \""+searchRetStr+"\"}";
 		return str;
 	}
 }

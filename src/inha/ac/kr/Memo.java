@@ -2,6 +2,8 @@ package inha.ac.kr;
 
 import java.sql.*;
 
+import javax.naming.NamingException;
+
 public class Memo {
 	public static String getAllMemo() {
 		Connection conn = null;
@@ -36,10 +38,14 @@ public class Memo {
 						+ ",\"y\": " + r_y + "}";
 				str += ",";
 			}
-			DBconn.close();
+			rs.close();
+			st.close();
+			conn.close();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (NamingException e) {
 			e.printStackTrace();
 		}
 		StringBuilder json = new StringBuilder(str);
@@ -81,10 +87,14 @@ public class Memo {
 						+ "\",\"x\": " + r_x + ",\"y\": " + r_y + "}";
 				str += ",";
 			}
-			DBconn.close();
+			rs.close();
+			st.close();
+			conn.close();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (NamingException e) {
 			e.printStackTrace();
 		}
 		StringBuilder json = new StringBuilder(str);
@@ -109,10 +119,13 @@ public class Memo {
 					+ boardid + ",\'" + title + "\',\'" + content + "\',\'" + time + "\',\'" + bgcolor + "\',"
 					+ imagepath + "," + important + "," + x + "," + y + ")";
 			st.executeUpdate(sql);
-			DBconn.close();
+			st.close();
+			conn.close();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (NamingException e) {
 			e.printStackTrace();
 		}
 	}
@@ -127,10 +140,13 @@ public class Memo {
 			st = conn.createStatement();
 			String sql = "Update memos set title=\'" + title + "\', time=\'" + time + "\' where memoid=" + memoid;
 			st.executeUpdate(sql);
-			DBconn.close();
+			st.close();
+			conn.close();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (NamingException e) {
 			e.printStackTrace();
 		}
 	}
@@ -145,10 +161,13 @@ public class Memo {
 			st = conn.createStatement();
 			String sql = "Update memos set content=\'" + content + "\', time=\'" + time + "\' where memoid=" + memoid;
 			st.executeUpdate(sql);
-			DBconn.close();
+			st.close();
+			conn.close();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (NamingException e) {
 			e.printStackTrace();
 		}
 	}
@@ -163,10 +182,13 @@ public class Memo {
 			st = conn.createStatement();
 			String sql = "Update memos set bgcolor=\'" + bgcolor + "\' where memoid=" + memoid;
 			st.executeUpdate(sql);
-			DBconn.close();
+			st.close();
+			conn.close();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (NamingException e) {
 			e.printStackTrace();
 		}
 	}
@@ -181,10 +203,13 @@ public class Memo {
 			st = conn.createStatement();
 			String sql = "Update memos set x=" + x + ", y=" + y + " where memoid=" + memoid;
 			st.executeUpdate(sql);
-			DBconn.close();
+			st.close();
+			conn.close();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (NamingException e) {
 			e.printStackTrace();
 		}
 	}
@@ -199,10 +224,13 @@ public class Memo {
 			st = conn.createStatement();
 			String sql = "Update memos set important=" + important + " where memoid=" + memoid;
 			st.executeUpdate(sql);
-			DBconn.close();
+			st.close();
+			conn.close();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (NamingException e) {
 			e.printStackTrace();
 		}
 	}
@@ -217,10 +245,13 @@ public class Memo {
 			st = conn.createStatement();
 			String sql = "Update memos set imagepath=\'" + imagepath + "\' where memoid=" + memoid;
 			st.executeUpdate(sql);
-			DBconn.close();
+			st.close();
+			conn.close();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (NamingException e) {
 			e.printStackTrace();
 		}
 	}
@@ -235,10 +266,13 @@ public class Memo {
 			st = conn.createStatement();
 			String sql = "Delete from memos where memoid=" + memoid;
 			st.executeUpdate(sql);
-			DBconn.close();
+			st.close();
+			conn.close();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (NamingException e) {
 			e.printStackTrace();
 		}
 	}

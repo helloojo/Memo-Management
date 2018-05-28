@@ -5,6 +5,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import javax.naming.NamingException;
+
 public class Board {
 	public static String getBoard() {
 		Connection conn = null;
@@ -28,10 +30,14 @@ public class Board {
 				str += "{" + "\"id\": \"" + r_bID + "\"," + "\"name\": \"" + r_bname + "\"}";
 				str += ",";
 			}
-			DBconn.close();
+			rs.close();
+			st.close();
+			conn.close();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (NamingException e) {
 			e.printStackTrace();
 		}
 		StringBuilder json = new StringBuilder(str);
@@ -50,10 +56,13 @@ public class Board {
 			st = conn.createStatement();
 			String sql = "Insert into board(boardname) values(\'" + boardname + "\')";
 			st.executeUpdate(sql);
-			DBconn.close();
+			st.close();
+			conn.close();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (NamingException e) {
 			e.printStackTrace();
 		}
 	}
@@ -68,10 +77,13 @@ public class Board {
 			st = conn.createStatement();
 			String sql = "Update board set boardname=\'" + boardname + "\'where boardid=" + boardid;
 			st.executeUpdate(sql);
-			DBconn.close();
+			st.close();
+			conn.close();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (NamingException e) {
 			e.printStackTrace();
 		}
 	}
@@ -86,10 +98,13 @@ public class Board {
 			st = conn.createStatement();
 			String sql = "Delete from board where boardid=" + boardid;
 			st.executeUpdate(sql);
-			DBconn.close();
+			st.close();
+			conn.close();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (NamingException e) {
 			e.printStackTrace();
 		}
 	}
