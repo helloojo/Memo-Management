@@ -17,17 +17,18 @@ var MemoManage = (function() {
 
 	// eventListener
 	$search.focusin(function() {		//search bar에 focus시 결과화면 출력
-		$searchresult.css("display", "block");
+		$searchresult.css("display", "flex");
 	});
 	$search.focusout(function() {		//focus out시 결과화면 숨기기
 		$search.val("");
+		$searchresult.empty();
 		$searchresult.css("display", "none");
 	});
 	$search.keyup(search);		//검색기능
 	$(".sbbtn").click(function() {
 		var boardname = $("input[name=name]").val();
 		if ($(this).attr("value") == "Create") { //Board 추가
-			DBConn.addBoardToDB(boardname);
+			DBConn.addBoardtoDB(boardname);
 		} else { //Board 수정
 			var boardid = $(this).data("boardid");
 			DBConn.updateBoardinDB(boardid, boardname);
@@ -459,7 +460,7 @@ var MemoManage = (function() {
 				}
 			});
 		},
-		addBoardToDB: function(boardname) {
+		addBoardtoDB: function(boardname) {
 			$("#loading").css("display", "block");
 			$.ajax({
 				url: "./getData.jsp",
@@ -473,7 +474,7 @@ var MemoManage = (function() {
 				}
 			});
 		},
-		addMemoToDB: function(boardid) {
+		addMemotoDB: function(boardid) {
 			var coor = setRandomPos();
 			$("#loading").css("display", "block");
 			$.ajax({

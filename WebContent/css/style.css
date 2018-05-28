@@ -48,11 +48,38 @@ body {
 	background: rgba(0, 0, 0, 0.7);
 	z-index: 987654;
 	animation: 0.4s fade-in;
+	flex-wrap: wrap;
+	flex-shrink: 0;
+	align-content: flex-start;
 }
 
 #search:focus {
 	width: 95%;
 }
+
+.search-result {
+	height: 15%;
+}
+
+.search-title {
+	display: block;
+	font-size: 1rem;
+	font-weight: bold;
+	border: 0;
+	padding: 1rem;
+	width: 90%;
+}
+
+.search-content {
+	display: block;
+	margin: 0.5rem auto;
+	border: 0;
+	resize: none;
+	width: 90%;
+	overflow: hidden;
+	height: 150px;
+}
+
 
 .board {
 	width: 80%;
@@ -233,7 +260,7 @@ body {
 	top: -1.5rem;
 	left: 15rem;
 	font-size: 1.3rem;
-	font-weight: bold;	
+	font-weight: bold;
 	color: #EDEEF2;
 }
 
