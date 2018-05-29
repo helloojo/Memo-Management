@@ -56,15 +56,16 @@ public class Memo {
 
 	public static String getMemo(String boardid) {
 		Connection conn = null;
-		Statement st;
+		PreparedStatement pst;
 		String str = "";
 		try {
 			while (conn == null) {
 				conn = DBconn.getConnection();
 			}
-			st = conn.createStatement();
-			String sql = "Select * from memos where boardid=" + boardid;
-			ResultSet rs = st.executeQuery(sql);
+			String sql = "Select * from memos where boardid=?";
+			pst = conn.prepareStatement(sql);
+			pst.setInt(1, Integer.parseInt(boardid));
+			ResultSet rs = pst.executeQuery();
 			str = "[";
 			if (!rs.first()) {
 				str += "]";
@@ -88,7 +89,7 @@ public class Memo {
 				str += ",";
 			}
 			rs.close();
-			st.close();
+			pst.close();
 			conn.close();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
@@ -106,20 +107,27 @@ public class Memo {
 	public static void addMemo(String boardid, String title, String content, String time, String bgcolor,
 			String imagepath, String important, String x, String y) {
 		Connection conn = null;
-		Statement st;
+		PreparedStatement pst;
 		try {
 			while (conn == null) {
 				conn = DBconn.getConnection();
 			}
-			st = conn.createStatement();
 			if (imagepath == "") {
 				imagepath = "null";
 			}
-			String sql = "Insert into memos(boardid,title,content,time,bgcolor,imagepath,important,x,y) values("
-					+ boardid + ",\'" + title + "\',\'" + content + "\',\'" + time + "\',\'" + bgcolor + "\',"
-					+ imagepath + "," + important + "," + x + "," + y + ")";
-			st.executeUpdate(sql);
-			st.close();
+			String sql = "Insert into memos values(null,?,?,?,?,?,?,?,?,?)";
+			pst = conn.prepareStatement(sql);
+			pst.setInt(1, Integer.parseInt(boardid));
+			pst.setString(2, title);
+			pst.setString(3, content);
+			pst.setString(4, time);
+			pst.setString(5, bgcolor);
+			pst.setString(6, imagepath);
+			pst.setBoolean(7, Boolean.parseBoolean(important));
+			pst.setDouble(8, Double.parseDouble(x));
+			pst.setDouble(9, Double.parseDouble(y));
+			pst.executeUpdate();
+			pst.close();
 			conn.close();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
@@ -132,15 +140,18 @@ public class Memo {
 
 	public static void updateMemoTitle(String memoid, String title, String time) {
 		Connection conn = null;
-		Statement st;
+		PreparedStatement pst;
 		try {
 			while (conn == null) {
 				conn = DBconn.getConnection();
 			}
-			st = conn.createStatement();
-			String sql = "Update memos set title=\'" + title + "\', time=\'" + time + "\' where memoid=" + memoid;
-			st.executeUpdate(sql);
-			st.close();
+			String sql = "Update memos set title=?, time=? where memoid=?";
+			pst = conn.prepareStatement(sql);
+			pst.setString(1, title);
+			pst.setString(2, time);
+			pst.setInt(3, Integer.parseInt(memoid));
+			pst.executeUpdate();
+			pst.close();
 			conn.close();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
@@ -153,15 +164,18 @@ public class Memo {
 
 	public static void updateMemoContent(String memoid, String content, String time) {
 		Connection conn = null;
-		Statement st;
+		PreparedStatement pst;
 		try {
 			while (conn == null) {
 				conn = DBconn.getConnection();
 			}
-			st = conn.createStatement();
-			String sql = "Update memos set content=\'" + content + "\', time=\'" + time + "\' where memoid=" + memoid;
-			st.executeUpdate(sql);
-			st.close();
+			String sql = "Update memos set content=?, time=? where memoid=?";
+			pst = conn.prepareStatement(sql);
+			pst.setString(1, content);
+			pst.setString(2, time);
+			pst.setInt(3, Integer.parseInt(memoid));
+			pst.executeUpdate();
+			pst.close();
 			conn.close();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
@@ -174,15 +188,17 @@ public class Memo {
 
 	public static void updateMemoColor(String memoid, String bgcolor) {
 		Connection conn = null;
-		Statement st;
+		PreparedStatement pst;
 		try {
 			while (conn == null) {
 				conn = DBconn.getConnection();
 			}
-			st = conn.createStatement();
-			String sql = "Update memos set bgcolor=\'" + bgcolor + "\' where memoid=" + memoid;
-			st.executeUpdate(sql);
-			st.close();
+			String sql = "Update memos set bgcolor=? where memoid=?";
+			pst = conn.prepareStatement(sql);
+			pst.setString(1, bgcolor);
+			pst.setInt(2, Integer.parseInt(memoid));
+			pst.executeUpdate();
+			pst.close();
 			conn.close();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
@@ -195,15 +211,18 @@ public class Memo {
 
 	public static void updateMemoCoordinate(String memoid, String x, String y) {
 		Connection conn = null;
-		Statement st;
+		PreparedStatement pst;
 		try {
 			while (conn == null) {
 				conn = DBconn.getConnection();
 			}
-			st = conn.createStatement();
-			String sql = "Update memos set x=" + x + ", y=" + y + " where memoid=" + memoid;
-			st.executeUpdate(sql);
-			st.close();
+			String sql = "Update memos set x=?, y=? where memoid=?";
+			pst = conn.prepareStatement(sql);
+			pst.setDouble(1, Double.parseDouble(x));
+			pst.setDouble(2, Double.parseDouble(y));
+			pst.setInt(3, Integer.parseInt(memoid));
+			pst.executeUpdate();
+			pst.close();
 			conn.close();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
@@ -216,15 +235,17 @@ public class Memo {
 
 	public static void updateMemoImportant(String memoid, String important) {
 		Connection conn = null;
-		Statement st;
+		PreparedStatement pst;
 		try {
 			while (conn == null) {
 				conn = DBconn.getConnection();
 			}
-			st = conn.createStatement();
-			String sql = "Update memos set important=" + important + " where memoid=" + memoid;
-			st.executeUpdate(sql);
-			st.close();
+			String sql = "Update memos set important=? where memoid=?";
+			pst = conn.prepareStatement(sql);
+			pst.setBoolean(1, Boolean.parseBoolean(important));
+			pst.setInt(2, Integer.parseInt(memoid));
+			pst.executeUpdate();
+			pst.close();
 			conn.close();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
@@ -235,17 +256,20 @@ public class Memo {
 		}
 	}
 
-	public static void updateMemoImage(String memoid, String imagepath) {
+	public static void updateMemoImage(String memoid, String time, String imagepath) {
 		Connection conn = null;
-		Statement st;
+		PreparedStatement pst;
 		try {
 			while (conn == null) {
 				conn = DBconn.getConnection();
 			}
-			st = conn.createStatement();
-			String sql = "Update memos set imagepath=\'" + imagepath + "\' where memoid=" + memoid;
-			st.executeUpdate(sql);
-			st.close();
+			String sql = "Update memos set imagepath=?, time=? where memoid=?";
+			pst = conn.prepareStatement(sql);
+			pst.setString(1, imagepath);
+			pst.setString(2, time);
+			pst.setInt(3, Integer.parseInt(memoid));
+			pst.executeUpdate();
+			pst.close();
 			conn.close();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
@@ -258,15 +282,16 @@ public class Memo {
 
 	public static void deleteMemo(String memoid) {
 		Connection conn = null;
-		Statement st;
+		PreparedStatement pst;
 		try {
 			while (conn == null) {
 				conn = DBconn.getConnection();
 			}
-			st = conn.createStatement();
-			String sql = "Delete from memos where memoid=" + memoid;
-			st.executeUpdate(sql);
-			st.close();
+			String sql = "Delete from memos where memoid=?";
+			pst = conn.prepareStatement(sql);
+			pst.setInt(1, Integer.parseInt(memoid));
+			pst.executeUpdate();
+			pst.close();
 			conn.close();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();

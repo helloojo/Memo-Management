@@ -1,10 +1,6 @@
 package inha.ac.kr;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-
+import java.sql.*;
 import javax.naming.NamingException;
 
 public class Board {
@@ -48,15 +44,16 @@ public class Board {
 
 	public static void addBoard(String boardname) {
 		Connection conn = null;
-		Statement st;
+		PreparedStatement pst;
 		try {
 			while (conn == null) {
 				conn = DBconn.getConnection();
 			}
-			st = conn.createStatement();
-			String sql = "Insert into board(boardname) values(\'" + boardname + "\')";
-			st.executeUpdate(sql);
-			st.close();
+			String sql = "Insert into board(boardname) values(?)";
+			pst = conn.prepareStatement(sql);
+			pst.setString(1, boardname);
+			pst.executeUpdate();
+			pst.close();
 			conn.close();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
@@ -69,15 +66,17 @@ public class Board {
 
 	public static void updateBoard(String boardid, String boardname) {
 		Connection conn = null;
-		Statement st;
+		PreparedStatement pst;
 		try {
 			while (conn == null) {
 				conn = DBconn.getConnection();
 			}
-			st = conn.createStatement();
-			String sql = "Update board set boardname=\'" + boardname + "\'where boardid=" + boardid;
-			st.executeUpdate(sql);
-			st.close();
+			String sql = "Update board set boardname=? where boardid=?";
+			pst = conn.prepareStatement(sql);
+			pst.setString(1, boardname);
+			pst.setInt(2, Integer.parseInt(boardid));
+			pst.executeUpdate();
+			pst.close();
 			conn.close();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
@@ -90,15 +89,16 @@ public class Board {
 
 	public static void deleteBoard(String boardid) {
 		Connection conn = null;
-		Statement st;
+		PreparedStatement pst;
 		try {
 			while (conn == null) {
 				conn = DBconn.getConnection();
 			}
-			st = conn.createStatement();
-			String sql = "Delete from board where boardid=" + boardid;
-			st.executeUpdate(sql);
-			st.close();
+			String sql = "Delete from board where boardid=?";
+			pst = conn.prepareStatement(sql);
+			pst.setInt(1, Integer.parseInt(boardid));
+			pst.executeUpdate();
+			pst.close();
 			conn.close();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();

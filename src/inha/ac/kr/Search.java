@@ -19,8 +19,8 @@ public class Search {
 				conn = DBconn.getConnection();
 			}
 			pst = conn.prepareStatement(sql);
-			pst.setString(1, "%"+query+"%");
-			pst.setString(2, "%"+query+"%");
+			pst.setString(1, "%" + query + "%");
+			pst.setString(2, "%" + query + "%");
 			ResultSet rs = pst.executeQuery();
 			result = "[";
 			if (!rs.first()) {
