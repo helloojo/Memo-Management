@@ -170,7 +170,7 @@ window.onload = function() {
 			memoli.append(memo.title);
 			memoli.data("memoid", memo.memoid);
 			memoli.data("important", memo.important);
-			if (memo.important) {
+			if (memo.important==1) {
 				memoli.find(".star").html("star");
 			}
 			setMemoListEvent(memoli);
@@ -189,7 +189,7 @@ window.onload = function() {
 					var $find = $($memo[i]);
 					if ($find.data("memoid") == memoid) {
 						$find.data("important", memoli.data("important"));
-						if (memoli.data("important")) {
+						if (memoli.data("important")==1) {
 							star.html("star");
 							$find.find(".star").html("star");
 						} else {
@@ -225,7 +225,7 @@ window.onload = function() {
 						$memo.find(".imagearea").attr("src", data.imagepath);
 					}
 					$memo.css("background-color", data.bgcolor);
-					if (data.important) {
+					if (data.important==1) {
 						$memo.find(".star").html("star");
 					}
 					setMemoEvent($memo);
@@ -259,7 +259,7 @@ window.onload = function() {
 					var $find = $($memoli[i]);
 					if ($find.data("memoid") == memoid) {
 						$find.data("important", memo.data("important"));
-						if (memo.data("important")) {
+						if (memo.data("important")==1) {
 							star.html("star");
 							$find.find(".star").html("star");
 						} else {
