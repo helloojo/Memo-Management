@@ -22,8 +22,10 @@ var MemoManage = (function() {
     });
     $search.focusout(function() { // focus out시 결과화면 숨기기
         $search.val("");
-        $searchresult.empty();
-        $searchresult.css("display", "none");
+        setTimeout(function() {
+           $searchresult.empty();
+           $searchresult.css("display", "none");
+        },100);
     });
     $search.keyup(search); // 검색기능
     $(".sbbtn").click(function() {
@@ -474,6 +476,18 @@ var MemoManage = (function() {
             searchret.find(".query").css("color",data[i].bgcolor)
             searchret.find(".query").css("background-color",getCompColor(data[i].bgcolor));
             searchret.css("background-color", data[i].bgcolor);
+            searchret.click(function() {
+            	var panel=$(".panel");
+            	for (var j in panel) {
+                    var $find = $(panel[j]);
+                    if ($find.data("boardid") == data[i].boardid) {
+                    	$boardlist.accordion("option","active",$find.prev().index()/2);
+                        curboard=data[i].boardid;
+                        DBConn.getMemofromDB(curboard);
+                    	break;
+                    }
+                }
+            });
             $searchresult.append(searchret);
         }
     }
@@ -491,7 +505,7 @@ var MemoManage = (function() {
                 },
                 success: function(data) {
                     $("#loading").css("display", "none");
-                    data=data.trim().replace(/\n/g, "\\\\n").replace(/\r/g, "\\\\r").replace(/\t/g, "\\\\t");
+                    data=data.trim().replace(/\n/g, "\\n").replace(/\r/g, "\\r").replace(/\t/g, "\\t");
                     data = $.parseJSON(data);
                     makelist(data.board, data.memo);
                 }
