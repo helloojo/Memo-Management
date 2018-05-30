@@ -10,6 +10,7 @@
 	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/style.css">
 	<script src="./js/jquery-3.3.1.min.js"></script>
 	<script src="./js/jquery-ui.min.js"></script>
+	<script src="${pageContext.request.contextPath}/js/script.js"></script>
 </head>
 
 <body>
@@ -53,7 +54,6 @@
 	<div id="loading">
 		<img id="loading-img" src="./image/loading.gif">
 	</div>
-	<script src="${pageContext.request.contextPath}/js/script.js"></script>
 </body>
 
 </html>
