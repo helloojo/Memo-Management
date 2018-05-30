@@ -2,17 +2,19 @@ package inha.ac.kr;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.sql.Types;
 
 import javax.naming.NamingException;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 
 public class Search {
 	public static String getResult(String query) {
 		Connection conn = null;
 		PreparedStatement pst;
-		String result = "";
+		StringBuffer result = new StringBuffer("");
 		String sql = "Select boardid,boardname,memoid,title,content,bgcolor from board inner join memos using(boardid) where title like ? || content like ?";
 		try {
 			while (conn == null) {
@@ -22,22 +24,27 @@ public class Search {
 			pst.setString(1, "%" + query + "%");
 			pst.setString(2, "%" + query + "%");
 			ResultSet rs = pst.executeQuery();
-			result = "[";
+			result.append("[");
 			if (!rs.first()) {
-				result += "]";
+				result.append("]");
 			}
 			rs.beforeFirst();
+			ResultSetMetaData rsmeta = rs.getMetaData();
+			int count = rsmeta.getColumnCount();
 			while (rs.next()) {
-				int r_mID = rs.getInt("memoid");
-				int r_bID = rs.getInt("boardid");
-				String r_boardname = rs.getString("boardname");
-				String r_title = rs.getString("title");
-				String r_content = rs.getString("content");
-				String r_color = rs.getString("bgcolor");
-				result += "{" + "\"mid\": " + r_mID + ",\"bid\": " + r_bID + ",\"boardname\": \"" + r_boardname
-						+ "\",\"title\": \"" + r_title + "\",\"content\": \"" + r_content + "\",\"bgcolor\": \""
-						+ r_color + "\"}";
-				result += ",";
+				result.append("{");
+				for (int i = 1; i <= count; i++) {
+					switch (rsmeta.getColumnType(i)) {
+					case Types.NUMERIC:
+						result.append("\"" + rsmeta.getColumnName(i) + "\": " + rs.getInt(i) + ",");
+						break;
+					default:
+						result.append("\"" + rsmeta.getColumnName(i) + "\": \"" + rs.getString(i) + "\",");
+						break;
+					}
+				}
+				result.setCharAt(result.length()-1, '}');
+				result.append(",");
 			}
 			rs.close();
 			pst.close();
@@ -49,9 +56,7 @@ public class Search {
 		} catch (NamingException e) {
 			e.printStackTrace();
 		}
-		StringBuilder json = new StringBuilder(result);
-		json.setCharAt(result.length() - 1, ']');
-		result = json.toString();
-		return result;
+		result.setCharAt(result.length() - 1, ']');
+		return result.toString();
 	}
 }

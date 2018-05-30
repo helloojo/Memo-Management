@@ -10,5 +10,4 @@
 	request.setCharacterEncoding("utf-8");
 	String query=request.getParameter("query");
 	String result=Search.getResult(query);
-	System.out.println(result);
 %><%=result%>

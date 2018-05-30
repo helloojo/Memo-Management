@@ -7,7 +7,7 @@ public class Board {
 	public static String getBoard() {
 		Connection conn = null;
 		Statement st;
-		String str = "";
+		StringBuffer str = new StringBuffer("");
 		try {
 			while (conn == null) {
 				conn = DBconn.getConnection();
@@ -15,16 +15,27 @@ public class Board {
 			st = conn.createStatement();
 			String sql = "Select * from board";
 			ResultSet rs = st.executeQuery(sql);
-			str = "[";
+			str.append("[");
 			if (!rs.first()) {
-				str += "]";
+				str.append("]");
 			}
 			rs.beforeFirst();
+			ResultSetMetaData rsmeta = rs.getMetaData();
+			int count = rsmeta.getColumnCount();
 			while (rs.next()) {
-				int r_bID = rs.getInt("boardid");
-				String r_bname = rs.getString("boardname");
-				str += "{" + "\"id\": \"" + r_bID + "\"," + "\"name\": \"" + r_bname + "\"}";
-				str += ",";
+				str.append("{");
+				for (int i = 1; i <= count; i++) {
+					switch (rsmeta.getColumnType(i)) {
+					case Types.NUMERIC:
+						str.append("\"" + rsmeta.getColumnName(i) + "\": " + rs.getInt(i) + ",");
+						break;
+					default:
+						str.append("\"" + rsmeta.getColumnName(i) + "\": \"" + rs.getString(i) + "\",");
+						break;
+					}
+				}
+				str.setCharAt(str.length()-1, '}');
+				str.append(",");
 			}
 			rs.close();
 			st.close();
@@ -36,10 +47,8 @@ public class Board {
 		} catch (NamingException e) {
 			e.printStackTrace();
 		}
-		StringBuilder json = new StringBuilder(str);
-		json.setCharAt(str.length() - 1, ']');
-		str = json.toString();
-		return str;
+		str.setCharAt(str.length() - 1, ']');
+		return str.toString();
 	}
 
 	public static void addBoard(String boardname) {

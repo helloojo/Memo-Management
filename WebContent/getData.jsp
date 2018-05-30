@@ -26,9 +26,6 @@
 	String sql = "";
 	String str = "";
 	String boardname;
-	ResultSet rs = null;
-	StringBuilder json = null;
-	System.out.println(value + " Called!");
 	switch (value) {
 	case Value.GETBOARDANDMEMO:
 		str = "{ \"board\": ";

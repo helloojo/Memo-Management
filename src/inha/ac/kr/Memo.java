@@ -8,7 +8,7 @@ public class Memo {
 	public static String getAllMemo() {
 		Connection conn = null;
 		Statement st;
-		String str = "";
+		StringBuffer str = new StringBuffer("");
 		try {
 			while (conn == null) {
 				conn = DBconn.getConnection();
@@ -16,27 +16,33 @@ public class Memo {
 			st = conn.createStatement();
 			String sql = "Select * from memos";
 			ResultSet rs = st.executeQuery(sql);
-			str = "[";
+			str.append("[");
 			if (!rs.first()) {
-				str += "]";
+				str.append("]");
 			}
 			rs.beforeFirst();
+			ResultSetMetaData rsmeta = rs.getMetaData();
+			int count = rsmeta.getColumnCount();
 			while (rs.next()) {
-				int r_mID = rs.getInt("memoid");
-				int r_bID = rs.getInt("boardid");
-				String r_title = rs.getString("title");
-				String r_content = rs.getString("content");
-				String r_time = rs.getString("time");
-				String r_color = rs.getString("bgcolor");
-				String r_imgpath = rs.getString("imagepath");
-				boolean r_imp = rs.getBoolean("important");
-				int r_x = rs.getInt("x");
-				int r_y = rs.getInt("y");
-				str += "{" + "\"mid\": " + r_mID + ",\"bid\": " + r_bID + ",\"title\": \"" + r_title
-						+ "\",\"content\": \"" + r_content + "\",\"time\": \"" + r_time + "\",\"bgcolor\": \"" + r_color
-						+ "\",\"important\": " + r_imp + ",\"imagepath\": \"" + r_imgpath + "\",\"x\": " + r_x
-						+ ",\"y\": " + r_y + "}";
-				str += ",";
+				str.append("{");
+				for (int i = 1; i <= count; i++) {
+					switch (rsmeta.getColumnType(i)) {
+					case Types.NUMERIC:
+						str.append("\"" + rsmeta.getColumnName(i) + "\": " + rs.getInt(i) + ",");
+						break;
+					case Types.DOUBLE:
+						str.append("\"" + rsmeta.getColumnName(i) + "\": " + rs.getDouble(i) + ",");
+						break;
+					case Types.BOOLEAN:
+						str.append("\"" + rsmeta.getColumnName(i) + "\": " + rs.getBoolean(i) + ",");
+						break;
+					default:
+						str.append("\"" + rsmeta.getColumnName(i) + "\": \"" + rs.getString(i) + "\",");
+						break;
+					}
+				}
+				str.setCharAt(str.length()-1, '}');
+				str.append(",");
 			}
 			rs.close();
 			st.close();
@@ -48,16 +54,14 @@ public class Memo {
 		} catch (NamingException e) {
 			e.printStackTrace();
 		}
-		StringBuilder json = new StringBuilder(str);
-		json.setCharAt(str.length() - 1, ']');
-		str = json.toString();
-		return str;
+		str.setCharAt(str.length() - 1, ']');
+		return str.toString();
 	}
 
 	public static String getMemo(String boardid) {
 		Connection conn = null;
 		PreparedStatement pst;
-		String str = "";
+		StringBuffer str = new StringBuffer("");
 		try {
 			while (conn == null) {
 				conn = DBconn.getConnection();
@@ -66,27 +70,33 @@ public class Memo {
 			pst = conn.prepareStatement(sql);
 			pst.setInt(1, Integer.parseInt(boardid));
 			ResultSet rs = pst.executeQuery();
-			str = "[";
+			str.append("[");
 			if (!rs.first()) {
-				str += "]";
+				str.append("]");
 			}
 			rs.beforeFirst();
+			ResultSetMetaData rsmeta = rs.getMetaData();
+			int count = rsmeta.getColumnCount();
 			while (rs.next()) {
-				int r_mID = rs.getInt("memoid");
-				int r_bID = rs.getInt("boardid");
-				String r_title = rs.getString("title");
-				String r_content = rs.getString("content");
-				String r_time = rs.getString("time");
-				String r_color = rs.getString("bgcolor");
-				String r_imgpath = rs.getString("imagepath");
-				boolean r_imp = rs.getBoolean("important");
-				int r_x = rs.getInt("x");
-				int r_y = rs.getInt("y");
-				str += "{" + "\"mid\": " + r_mID + "," + "\"bid\": " + r_bID + "," + "\"title\": \"" + r_title + "\","
-						+ "\"content\": \"" + r_content + "\"," + "\"time\": \"" + r_time + "\"," + "\"bgcolor\": \""
-						+ r_color + "\"," + "\"important\": " + r_imp + "," + "\"imagepath\": \"" + r_imgpath
-						+ "\",\"x\": " + r_x + ",\"y\": " + r_y + "}";
-				str += ",";
+				str.append("{");
+				for (int i = 1; i <= count; i++) {
+					switch (rsmeta.getColumnType(i)) {
+					case Types.NUMERIC:
+						str.append("\"" + rsmeta.getColumnName(i) + "\": " + rs.getInt(i) + ",");
+						break;
+					case Types.DOUBLE:
+						str.append("\"" + rsmeta.getColumnName(i) + "\": " + rs.getDouble(i) + ",");
+						break;
+					case Types.BOOLEAN:
+						str.append("\"" + rsmeta.getColumnName(i) + "\": " + rs.getBoolean(i) + ",");
+						break;
+					default:
+						str.append("\"" + rsmeta.getColumnName(i) + "\": \"" + rs.getString(i) + "\",");
+						break;
+					}
+				}
+				str.setCharAt(str.length()-1, '}');
+				str.append(",");
 			}
 			rs.close();
 			pst.close();
@@ -98,10 +108,8 @@ public class Memo {
 		} catch (NamingException e) {
 			e.printStackTrace();
 		}
-		StringBuilder json = new StringBuilder(str);
-		json.setCharAt(str.length() - 1, ']');
-		str = json.toString();
-		return str;
+		str.setCharAt(str.length() - 1, ']');
+		return str.toString();
 	}
 
 	public static void addMemo(String boardid, String title, String content, String time, String bgcolor,

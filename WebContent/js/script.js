@@ -99,21 +99,21 @@ var MemoManage = (function() {
 		var memolist = null;
 		for ( var i in board) {
 			if (curboard == -1) {
-				curboard = board[i].id; // 초기상태일때 첫번째 board를 출력값으로 설정
+				curboard = board[i].boardid; // 초기상태일때 첫번째 board를 출력값으로 설정
 				index = 0;
 			}
-			if (curboard == board[i].id) {
-				print(memo, board[i].id); // 메모 출력
+			if (curboard == board[i].boardid) {
+				print(memo, board[i].boardid); // 메모 출력
 			}
 			list = $(Content.listStr);
-			list.html(board[i].name);
+			list.html(board[i].boardname);
 			panel = $("<div class=\"panel\"></div>");
-			panel.data("boardid", board[i].id);
+			panel.data("boardid", board[i].boardid);
 			btn = $(Content.btnzoneStr);
 			memolist = $(Content.memolistStr);
 			setBoardListEvent(btn); // 이벤트리스너 추가
 			for ( var j in memo) {
-				if (memo[j].bid == board[i].id) {
+				if (memo[j].boardid == board[i].boardid) {
 					memolist.append(addMemoList(memo[j]));
 				}
 			}
@@ -167,7 +167,7 @@ var MemoManage = (function() {
 		var memoli = null;
 		memoli = $(Content.memoliStr);
 		memoli.append(memo.title);
-		memoli.data("memoid", memo.mid);
+		memoli.data("memoid", memo.memoid);
 		memoli.data("important", memo.important);
 		if (memo.important) {
 			memoli.find(".star").html("star");
@@ -208,9 +208,9 @@ var MemoManage = (function() {
 		$(".memo").remove();
 		for ( var i in memo) {
 			var data = memo[i];
-			if (data.bid == boardid) {
+			if (data.boardid == boardid) {
 				var $memo = $(Content.memoStr);
-				$memo.data("memoid", data.mid);
+				$memo.data("memoid", data.memoid);
 				$memo.data("bgcolor", data.bgcolor);
 				$memo.data("imagepath", data.imagepath);
 				$memo.data("important", data.important);
@@ -408,23 +408,27 @@ var MemoManage = (function() {
 	}
 
 	function search(e) {
-		$.ajax({
-			url : "./search.jsp",
-			data : {
-				query : e.target.value
-			},
-			success : function(data) {
-				data = $.parseJSON(data);
-				printSearchResult(data);
-			}
-		});
+		if(e.target.value!="") {
+			$.ajax({
+				url : "./search.jsp",
+				data : {
+					query : e.target.value
+				},
+				success : function(data) {
+					data = $.parseJSON(data);
+					printSearchResult(data);
+				}
+			});			
+		} else {
+			$searchresult.empty();
+		}
 	}
 	function printSearchResult(data) {
 		$searchresult.empty();
 		for ( var i in data) {
 			var searchret = $(Content.searchRetStr);
-			searchret.data("memoid", data[i].mid);
-			searchret.data("boardid", data[i].bid);
+			searchret.data("memoid", data[i].memoid);
+			searchret.data("boardid", data[i].boardid);
 			searchret.find(".search-title").html(
 					data[i].title + " - " + data[i].boardname);
 			searchret.find(".search-content").html(data[i].content);
