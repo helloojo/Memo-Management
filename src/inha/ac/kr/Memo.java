@@ -1,4 +1,4 @@
-package inha.ac.kr;
+﻿package inha.ac.kr;
 
 import java.sql.*;
 
@@ -14,19 +14,19 @@ public class Memo {
 				conn = DBconn.getConnection();
 			}
 			st = conn.createStatement();
-			String sql = "Select * from memos";
-			ResultSet rs = st.executeQuery(sql);
-			str.append("[");
+			String sql = "Select * from memos";		//모든 memo를 가져오기 위한 query
+			ResultSet rs = st.executeQuery(sql);	//query 실행
+			str.append("[");						//JSON 배열 만들기 위한 초기값
 			if (!rs.first()) {
-				str.append("]");
+				str.append("]");					//memo 없을때 빈 배열로 만들기 위함
 			}
-			rs.beforeFirst();
-			ResultSetMetaData rsmeta = rs.getMetaData();
-			int count = rsmeta.getColumnCount();
+			rs.beforeFirst();						//ResultSet의 첫번째 결과로 초기화
+			ResultSetMetaData rsmeta = rs.getMetaData();	//metadata 가져옴
+			int count = rsmeta.getColumnCount();			//column 수
 			while (rs.next()) {
-				str.append("{");
+				str.append("{");					//JSON 형식 시작
 				for (int i = 1; i <= count; i++) {
-					switch (rsmeta.getColumnType(i)) {
+					switch (rsmeta.getColumnType(i)) {	//Type에 맞는 Data처리
 					case Types.NUMERIC:
 						str.append("\"" + rsmeta.getColumnName(i) + "\": " + rs.getInt(i) + ",");
 						break;
@@ -41,7 +41,7 @@ public class Memo {
 						break;
 					}
 				}
-				str.setCharAt(str.length()-1, '}');
+				str.setCharAt(str.length()-1, '}');	//마지막 ','을 '}'로 바꿈 -> parseJSON 해결
 				str.append(",");
 			}
 			rs.close();
@@ -54,8 +54,8 @@ public class Memo {
 		} catch (NamingException e) {
 			e.printStackTrace();
 		}
-		str.setCharAt(str.length() - 1, ']');
-		return str.toString();
+		str.setCharAt(str.length() - 1, ']');	//마지막 ','을 ']'로 바꿈
+		return str.toString();					//query 결과값 반환
 	}
 
 	public static String getMemo(String boardid) {
@@ -66,21 +66,21 @@ public class Memo {
 			while (conn == null) {
 				conn = DBconn.getConnection();
 			}
-			String sql = "Select * from memos where boardid=?";
+			String sql = "Select * from memos where boardid=?";		//boardid에 맞는 메모 가져오기위한 query
 			pst = conn.prepareStatement(sql);
 			pst.setInt(1, Integer.parseInt(boardid));
-			ResultSet rs = pst.executeQuery();
-			str.append("[");
+			ResultSet rs = pst.executeQuery();	//query 실행
+			str.append("[");			//JSON 배열 만들기 위한 초기값
 			if (!rs.first()) {
-				str.append("]");
+				str.append("]");		//query 결과 없을 때 빈 배열로 만듬
 			}
 			rs.beforeFirst();
-			ResultSetMetaData rsmeta = rs.getMetaData();
-			int count = rsmeta.getColumnCount();
+			ResultSetMetaData rsmeta = rs.getMetaData();		//metadata 가져옴
+			int count = rsmeta.getColumnCount();				//column 수
 			while (rs.next()) {
-				str.append("{");
+				str.append("{");		//JSON 시작
 				for (int i = 1; i <= count; i++) {
-					switch (rsmeta.getColumnType(i)) {
+					switch (rsmeta.getColumnType(i)) {		//type에 맞게 Data처리
 					case Types.NUMERIC:
 						str.append("\"" + rsmeta.getColumnName(i) + "\": " + rs.getInt(i) + ",");
 						break;
@@ -95,7 +95,7 @@ public class Memo {
 						break;
 					}
 				}
-				str.setCharAt(str.length()-1, '}');
+				str.setCharAt(str.length()-1, '}');		//마지막 ','을 '}'로 바꿈 -> parseJSON 해결
 				str.append(",");
 			}
 			rs.close();
@@ -108,8 +108,8 @@ public class Memo {
 		} catch (NamingException e) {
 			e.printStackTrace();
 		}
-		str.setCharAt(str.length() - 1, ']');
-		return str.toString();
+		str.setCharAt(str.length() - 1, ']');		//마지막 ','을 ']'로 바꿈
+		return str.toString();						//query 결과값 반환
 	}
 
 	public static void addMemo(String boardid, String title, String content, String time, String bgcolor,
@@ -120,12 +120,12 @@ public class Memo {
 			while (conn == null) {
 				conn = DBconn.getConnection();
 			}
-			if (imagepath == "") {
+			if (imagepath == "") {		//imagepath값 null로 변경
 				imagepath = "null";
 			}
-			String sql = "Insert into memos values(null,?,?,?,?,?,?,?,?,?)";
+			String sql = "Insert into memos values(null,?,?,?,?,?,?,?,?,?)";		//preparedstatement처리 위한 query
 			pst = conn.prepareStatement(sql);
-			pst.setInt(1, Integer.parseInt(boardid));
+			pst.setInt(1, Integer.parseInt(boardid));		//query에 값 입력
 			pst.setString(2, title);
 			pst.setString(3, content);
 			pst.setString(4, time);
@@ -134,7 +134,7 @@ public class Memo {
 			pst.setBoolean(7, Boolean.parseBoolean(important));
 			pst.setDouble(8, Double.parseDouble(x));
 			pst.setDouble(9, Double.parseDouble(y));
-			pst.executeUpdate();
+			pst.executeUpdate();						//메모 추가
 			pst.close();
 			conn.close();
 		} catch (ClassNotFoundException e) {
@@ -153,12 +153,12 @@ public class Memo {
 			while (conn == null) {
 				conn = DBconn.getConnection();
 			}
-			String sql = "Update memos set title=?, time=? where memoid=?";
+			String sql = "Update memos set title=?, time=? where memoid=?";		//memo title update위한 query
 			pst = conn.prepareStatement(sql);
-			pst.setString(1, title);
+			pst.setString(1, title);			//query에 값 입력
 			pst.setString(2, time);
 			pst.setInt(3, Integer.parseInt(memoid));
-			pst.executeUpdate();
+			pst.executeUpdate();				//memo update
 			pst.close();
 			conn.close();
 		} catch (ClassNotFoundException e) {
@@ -177,12 +177,12 @@ public class Memo {
 			while (conn == null) {
 				conn = DBconn.getConnection();
 			}
-			String sql = "Update memos set content=?, time=? where memoid=?";
+			String sql = "Update memos set content=?, time=? where memoid=?";	//memo content updata위한 query
 			pst = conn.prepareStatement(sql);
-			pst.setString(1, content);
+			pst.setString(1, content);		//query에 값 입력
 			pst.setString(2, time);
 			pst.setInt(3, Integer.parseInt(memoid));
-			pst.executeUpdate();
+			pst.executeUpdate();			//memo update
 			pst.close();
 			conn.close();
 		} catch (ClassNotFoundException e) {
@@ -201,11 +201,11 @@ public class Memo {
 			while (conn == null) {
 				conn = DBconn.getConnection();
 			}
-			String sql = "Update memos set bgcolor=? where memoid=?";
+			String sql = "Update memos set bgcolor=? where memoid=?";	//memo color updata 위한 query
 			pst = conn.prepareStatement(sql);
-			pst.setString(1, bgcolor);
+			pst.setString(1, bgcolor);			//query에 값 입력
 			pst.setInt(2, Integer.parseInt(memoid));
-			pst.executeUpdate();
+			pst.executeUpdate();		//memo update
 			pst.close();
 			conn.close();
 		} catch (ClassNotFoundException e) {
@@ -224,12 +224,12 @@ public class Memo {
 			while (conn == null) {
 				conn = DBconn.getConnection();
 			}
-			String sql = "Update memos set x=?, y=? where memoid=?";
+			String sql = "Update memos set x=?, y=? where memoid=?";		//memo 좌표 update위한 query
 			pst = conn.prepareStatement(sql);
-			pst.setDouble(1, Double.parseDouble(x));
+			pst.setDouble(1, Double.parseDouble(x));		//query에 값 입력
 			pst.setDouble(2, Double.parseDouble(y));
 			pst.setInt(3, Integer.parseInt(memoid));
-			pst.executeUpdate();
+			pst.executeUpdate();							//memo update
 			pst.close();
 			conn.close();
 		} catch (ClassNotFoundException e) {
@@ -248,11 +248,11 @@ public class Memo {
 			while (conn == null) {
 				conn = DBconn.getConnection();
 			}
-			String sql = "Update memos set important=? where memoid=?";
+			String sql = "Update memos set important=? where memoid=?";		//memo 중요도 update 위한 query
 			pst = conn.prepareStatement(sql);
-			pst.setBoolean(1, Boolean.parseBoolean(important));
+			pst.setBoolean(1, Boolean.parseBoolean(important));		//query에 값 입력
 			pst.setInt(2, Integer.parseInt(memoid));
-			pst.executeUpdate();
+			pst.executeUpdate();		//memo update
 			pst.close();
 			conn.close();
 		} catch (ClassNotFoundException e) {
@@ -271,12 +271,12 @@ public class Memo {
 			while (conn == null) {
 				conn = DBconn.getConnection();
 			}
-			String sql = "Update memos set imagepath=?, time=? where memoid=?";
+			String sql = "Update memos set imagepath=?, time=? where memoid=?";		//memo imagepath update 위한 query
 			pst = conn.prepareStatement(sql);
-			pst.setString(1, imagepath);
+			pst.setString(1, imagepath);		//query에 값 입력
 			pst.setString(2, time);
 			pst.setInt(3, Integer.parseInt(memoid));
-			pst.executeUpdate();
+			pst.executeUpdate();		//memo update
 			pst.close();
 			conn.close();
 		} catch (ClassNotFoundException e) {
@@ -295,10 +295,10 @@ public class Memo {
 			while (conn == null) {
 				conn = DBconn.getConnection();
 			}
-			String sql = "Delete from memos where memoid=?";
+			String sql = "Delete from memos where memoid=?";		//memo 삭제위한 query
 			pst = conn.prepareStatement(sql);
-			pst.setInt(1, Integer.parseInt(memoid));
-			pst.executeUpdate();
+			pst.setInt(1, Integer.parseInt(memoid));		//query에 값 입력
+			pst.executeUpdate();		//memo delete
 			pst.close();
 			conn.close();
 		} catch (ClassNotFoundException e) {

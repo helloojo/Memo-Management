@@ -1,4 +1,4 @@
-package inha.ac.kr;
+﻿package inha.ac.kr;
 
 import java.io.File;
 
@@ -11,9 +11,9 @@ public class RandomFileRenamePolicy implements FileRenamePolicy {
 		String body = null;
 		String ext = null;
 		int dot = name.lastIndexOf(".");
-		ext = name.substring(dot);
-		body = Long.toString(System.currentTimeMillis());
-		File rename = new File(f.getParent(), body + ext);
+		ext = name.substring(dot);		//확장자 (.???) 자름
+		body = Long.toString(System.currentTimeMillis());		//현재 시간으로 file이름 변경
+		File rename = new File(f.getParent(), body + ext);		//file rename (현재시간.???)
 		return rename;
 	}
 }

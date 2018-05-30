@@ -1,4 +1,4 @@
-package inha.ac.kr;
+﻿package inha.ac.kr;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -15,7 +15,7 @@ public class Search {
 		Connection conn = null;
 		PreparedStatement pst;
 		StringBuffer result = new StringBuffer("");
-		String sql = "Select boardid,boardname,memoid,title,content,bgcolor from board inner join memos using(boardid) where title like ? || content like ?";
+		String sql = "Select boardid,boardname,memoid,title,content,bgcolor from board inner join memos using(boardid) where binary title like ? || binary content like ?";
 		try {
 			while (conn == null) {
 				conn = DBconn.getConnection();

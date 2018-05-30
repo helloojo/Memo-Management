@@ -1,4 +1,4 @@
-package inha.ac.kr;
+﻿package inha.ac.kr;
 
 import java.sql.*;
 import javax.naming.NamingException;
@@ -14,18 +14,18 @@ public class Board {
 			}
 			st = conn.createStatement();
 			String sql = "Select * from board";
-			ResultSet rs = st.executeQuery(sql);
-			str.append("[");
-			if (!rs.first()) {
+			ResultSet rs = st.executeQuery(sql);		//sql query 실행
+			str.append("[");							//json 배열로 만들기 위한 초기값설정
+			if (!rs.first()) {							//query 결과가 없을때 빈 배열로 설정
 				str.append("]");
 			}
-			rs.beforeFirst();
-			ResultSetMetaData rsmeta = rs.getMetaData();
-			int count = rsmeta.getColumnCount();
+			rs.beforeFirst();							//resultset 첫번째 결과로 돌아옴
+			ResultSetMetaData rsmeta = rs.getMetaData();//metadata 받음
+			int count = rsmeta.getColumnCount();		//column 개수 받음
 			while (rs.next()) {
-				str.append("{");
+				str.append("{");						//JSON 형식 시작
 				for (int i = 1; i <= count; i++) {
-					switch (rsmeta.getColumnType(i)) {
+					switch (rsmeta.getColumnType(i)) {	//Type에 따른 결과값 처리
 					case Types.NUMERIC:
 						str.append("\"" + rsmeta.getColumnName(i) + "\": " + rs.getInt(i) + ",");
 						break;
@@ -34,7 +34,7 @@ public class Board {
 						break;
 					}
 				}
-				str.setCharAt(str.length()-1, '}');
+				str.setCharAt(str.length()-1, '}');	//마지막 ',' 문자를 '}'로 변환 -> 안할시 parseJSON에러
 				str.append(",");
 			}
 			rs.close();
@@ -47,8 +47,8 @@ public class Board {
 		} catch (NamingException e) {
 			e.printStackTrace();
 		}
-		str.setCharAt(str.length() - 1, ']');
-		return str.toString();
+		str.setCharAt(str.length() - 1, ']');	//마지막 ',' 문자를 ']'로 변환
+		return str.toString();					//query 결과 JSON배열 형식 반환
 	}
 
 	public static void addBoard(String boardname) {
@@ -61,7 +61,7 @@ public class Board {
 			String sql = "Insert into board(boardname) values(?)";
 			pst = conn.prepareStatement(sql);
 			pst.setString(1, boardname);
-			pst.executeUpdate();
+			pst.executeUpdate();		//카테고리 추가
 			pst.close();
 			conn.close();
 		} catch (ClassNotFoundException e) {
@@ -84,7 +84,7 @@ public class Board {
 			pst = conn.prepareStatement(sql);
 			pst.setString(1, boardname);
 			pst.setInt(2, Integer.parseInt(boardid));
-			pst.executeUpdate();
+			pst.executeUpdate();		//카테고리 업데이트
 			pst.close();
 			conn.close();
 		} catch (ClassNotFoundException e) {
@@ -106,7 +106,7 @@ public class Board {
 			String sql = "Delete from board where boardid=?";
 			pst = conn.prepareStatement(sql);
 			pst.setInt(1, Integer.parseInt(boardid));
-			pst.executeUpdate();
+			pst.executeUpdate();		//카테고리 삭제
 			pst.close();
 			conn.close();
 		} catch (ClassNotFoundException e) {

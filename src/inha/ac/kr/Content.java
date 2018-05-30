@@ -1,4 +1,4 @@
-package inha.ac.kr;
+﻿package inha.ac.kr;
 
 public class Content {
 	private static String memoStr = "<div class=\\\"memo\\\">" + "<div class=\\\"move\\\">"
@@ -20,6 +20,7 @@ public class Content {
 	private static String searchRetStr = "<div class=\\\"search-result memo\\\">"
 			+ "<div class=\\\"search-title\\\"></div><hr>" + "<div class=\\\"search-content\\\"></div></div>";
 
+	//javascript에서 사용할 html String을 Server에서 반환해주기 위함
 	public static String getContent() {
 		String str = "{\"memoStr\": \"" + memoStr + "\",\"listStr\": \"" + listStr + "\",\"btnzoneStr\": \""
 				+ btnzoneStr + "\",\"memolistStr\": \"" + memolistStr + "\",\"memoliStr\": \"" + memoliStr
