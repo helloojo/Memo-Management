@@ -110,17 +110,20 @@ window.onload = function() {
 					print(memo, board[i].boardid); // 메모 출력
 				}
 				list = $(Content.listStr);
-				list.html(board[i].boardname);
 				panel = $("<div class=\"panel\"></div>");
+				panel.data("boardname",board[i].boardname);
 				panel.data("boardid", board[i].boardid);
 				btn = $(Content.btnzoneStr);
 				memolist = $(Content.memolistStr);
 				setBoardListEvent(btn); // 이벤트리스너 추가
+				var memoCnt=0;
 				for (var j in memo) {
 					if (memo[j].boardid == board[i].boardid) { //모든 memo를 가져왔기 때문에 boardid가 같은 memo만 list에 추가
 						memolist.append(addMemoList(memo[j]));
+						memoCnt++;
 					}
 				}
+				list.html(board[i].boardname+" ("+memoCnt+")");
 				panel.append(btn).append(memolist);
 				$boardlist.append(list);
 				$boardlist.append(panel);
@@ -151,7 +154,7 @@ window.onload = function() {
 			});
 			edit.click(function() { // board 수정
 				var boardid = $(this).parent().parent().data("boardid"); //edit.parent->btn.parent->panel
-				var boardname = this.parentElement.parentElement.previousSibling.innerText; //edit.parent->btn.parent->panel->prevsibling: list
+				var boardname =  $(this).parent().parent().data("boardname"); //edit.parent->btn.parent->panel
 				$(".sbbtn").data("boardid", boardid);		//수정위한 data전달
 				$("input[name=name]").val(boardname);
 				$modal.css("display", "block");
