@@ -1,6 +1,6 @@
 package inha.ac.kr;
 
-public class Value {
+public class Value {		//ajax실행 시 실행할 query를 구분하기 위한 상수 값
 	public static final int GETBOARDANDMEMO = 0;
 	public static final int GETMEMO = 1;
 	public static final int ADDBOARD = 2;

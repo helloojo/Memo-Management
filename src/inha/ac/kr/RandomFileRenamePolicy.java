@@ -5,7 +5,6 @@ import java.io.File;
 import com.oreilly.servlet.multipart.FileRenamePolicy;
 
 public class RandomFileRenamePolicy implements FileRenamePolicy {
-
 	public File rename(File f) {
 		String name = f.getName();
 		String body = null;
