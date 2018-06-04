@@ -10,6 +10,16 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 
+/**
+ * 
+ * @author AYJ
+ * javascript에서 ajax로 memo내용 검색 요청 시
+ * DB에서 검색해서 결과 반환해주는 class
+ * 검색내용은 title과 content 검색
+ * 반환내용은 boardid,boardname,memoid,title,content,bgcolor
+ * 함수 static하게 구현
+ */
+
 public class Search {
 	public static String getResult(String query) {
 		Connection conn = null;

@@ -2,7 +2,14 @@
 
 import java.sql.*;
 import javax.naming.NamingException;
-
+/**
+ * 
+ * @author AYJ
+ * Javascript에서 ajax를 이용해 Board관련 Data 요청했을때
+ * DB에서 Board Data처리위한 Class
+ * 모든 함수는 Static선언해서 바로 사용할 수 있게함
+ *
+ */
 public class Board {
 	public static String getBoard() {
 		Connection conn = null;

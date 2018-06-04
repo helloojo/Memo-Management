@@ -4,6 +4,15 @@ import java.sql.*;
 
 import javax.naming.NamingException;
 
+/**
+ * 
+ * @author AYJ
+ * javascript에서 ajax이용 memo관련 data요청 시
+ * DB에서 data가져와 반환해주는 class
+ * 모든 함수 static처리
+ *
+ */
+
 public class Memo {
 	public static String getAllMemo() {
 		Connection conn = null;

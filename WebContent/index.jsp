@@ -3,14 +3,14 @@
 <html>
 
 <head>
-	<title>Memo Manage Program</title>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, user-scalable=no">
-	<link rel="stylesheet" type="text/css" href="./css/icon.css">
-	<link rel="stylesheet" type="text/css" href="./css/style.css">
-	<script src="./js/jquery-3.3.1.min.js"></script>
-	<script src="./js/jquery-ui.min.js"></script>
-	<script src="./js/script.js"></script>
+<title>Memo Manage Program</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<link rel="stylesheet" type="text/css" href="./css/icon.css">
+<link rel="stylesheet" type="text/css" href="./css/style.css">
+<script src="./js/jquery-3.3.1.min.js"></script>
+<script src="./js/jquery-ui.min.js"></script>
+<script src="./js/script.js"></script>
 </head>
 
 <body>
@@ -42,8 +42,7 @@
 				</div>
 				<div class="formforadd">
 					<div class="namesec">
-						<label class="name">Name
-							<input type="text" name="name">
+						<label class="name">Name <input type="text" name="name">
 						</label>
 					</div>
 				</div>

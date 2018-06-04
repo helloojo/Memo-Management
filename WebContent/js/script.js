@@ -491,8 +491,8 @@ window.onload = function() {
 			}
 		}
 
-		var DBConn = { // DB Connection
-			getBoardandMemofromDB: function() {
+		var DBConn = { // ajax를 통한 DB Connection위한 객체
+			getBoardandMemofromDB: function() {		//모든 memo, board가져오는 함수
 				$.ajax({
 					url: "./getData.jsp",
 					datatype: "json",
@@ -510,7 +510,7 @@ window.onload = function() {
 					}
 				});
 			},
-			getMemofromDB: function(boardid) {
+			getMemofromDB: function(boardid) {		//boardid에 맞는 memo가져오는 함수
 				$.ajax({
 					url: "./getData.jsp",
 					datatype: "json",
@@ -529,7 +529,7 @@ window.onload = function() {
 					}
 				});
 			},
-			addBoardtoDB: function(boardname) {
+			addBoardtoDB: function(boardname) {		//board 추가하는 함수
 				$.ajax({
 					url: "./getData.jsp",
 					data: {
@@ -544,11 +544,11 @@ window.onload = function() {
 					}
 				});
 			},
-			addMemotoDB: function(boardid) {
+			addMemotoDB: function(boardid) {		//memo 추가하는 함수
 				var coor = setRandomPos();
 				$.ajax({
 					url: "./getData.jsp",
-					data: {
+					data: {			//memo 초기값 전송
 						value: 3,
 						boardid: boardid,
 						title: "Title",
@@ -568,7 +568,7 @@ window.onload = function() {
 					}
 				});
 			},
-			deleteBoardinDB: function(boardid) {
+			deleteBoardinDB: function(boardid) {		//board 삭제하는 함수
 				$.ajax({
 					url: "./getData.jsp",
 					data: {
@@ -584,7 +584,7 @@ window.onload = function() {
 					}
 				});
 			},
-			deleteMemoinDB: function(memoid) {
+			deleteMemoinDB: function(memoid) {		//memo 삭제하는 함수
 				$.ajax({
 					url: "./getData.jsp",
 					data: {
@@ -593,7 +593,7 @@ window.onload = function() {
 					}
 				});
 			},
-			updateBoardinDB: function(boardid, boardname) {
+			updateBoardinDB: function(boardid, boardname) {		//board 수정하는 함수
 				$.ajax({
 					url: "./getData.jsp",
 					data: {
@@ -607,7 +607,7 @@ window.onload = function() {
 					success: DBConn.getBoardandMemofromDB
 				});
 			},
-			updateMemoTitle: function(memo) {
+			updateMemoTitle: function(memo) {		//memo title 수정하는 함수
 				$.ajax({
 					url: "./getData.jsp",
 					data: {
@@ -618,7 +618,7 @@ window.onload = function() {
 					}
 				});
 			},
-			updateMemoContent: function(memo) {
+			updateMemoContent: function(memo) {		//memo content 수정하는 함수
 				$.ajax({
 					url: "./getData.jsp",
 					data: {
@@ -629,7 +629,7 @@ window.onload = function() {
 					}
 				});
 			},
-			updateMemoColor: function(memo) {
+			updateMemoColor: function(memo) {		//memo backgroundcolor 수정하는 함수
 				$.ajax({
 					url: "./getData.jsp",
 					data: {
@@ -639,7 +639,7 @@ window.onload = function() {
 					}
 				});
 			},
-			updateMemoCoordinate: function(memo, coor) {
+			updateMemoCoordinate: function(memo, coor) {	//memo 좌표 수정하는 함수
 				$.ajax({
 					url: "./getData.jsp",
 					data: {
@@ -650,7 +650,7 @@ window.onload = function() {
 					}
 				});
 			},
-			updateMemoImportant: function(memo) {
+			updateMemoImportant: function(memo) {	//memo 중요도 수정하는 함수
 				$.ajax({
 					url: "./getData.jsp",
 					data: {
@@ -660,7 +660,7 @@ window.onload = function() {
 					}
 				});
 			},
-			updateMemoImage: function(memo) {
+			updateMemoImage: function(memo) {		//memo image경로 update
 				$.ajax({
 					url: "./getData.jsp",
 					data: {
@@ -674,11 +674,11 @@ window.onload = function() {
 		};
 
 		function initPage() {
-			$.ajaxSetup({
+			$.ajaxSetup({			//모든 ajax data 전송을 POST로 처리
 				type: "POST"
 			});
 			$.ajax({
-				url: "./getData.jsp",
+				url: "./getData.jsp",		//html String 가져오는 ajax
 				data: {
 					value: 13
 				},
@@ -703,6 +703,6 @@ window.onload = function() {
 				initPage();
 			}
 		};
-	})();
+	})();		//javascript 내부 변수, 함수를 숨기기위한 IIFE처리
 	MemoManage.init();
 };

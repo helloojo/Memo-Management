@@ -1,5 +1,12 @@
 ﻿package inha.ac.kr;
 
+/**
+ * 
+ * @author AYJ
+ * Page처음 로딩시 Javascript에서 ajax를 이용해 html element string 요청했을 때
+ * string 반환해주는 class 모든 함수, 변수 static 처리
+ *
+ */
 public class Content {
 	private static String memoStr = "<div class=\\\"memo\\\">" + "<div class=\\\"move\\\">"
 			+ "<div class=\\\"option\\\">" + "<i class=\\\"material-icons star\\\">star_border</i>"
@@ -20,7 +27,7 @@ public class Content {
 	private static String searchRetStr = "<div class=\\\"search-result memo\\\">"
 			+ "<div class=\\\"search-title\\\"></div><hr>" + "<div class=\\\"search-content\\\"></div></div>";
 
-	//javascript에서 사용할 html String을 Server에서 반환해주기 위함
+	// javascript에서 사용할 html String을 Server에서 반환해주기 위함
 	public static String getContent() {
 		String str = "{\"memoStr\": \"" + memoStr + "\",\"listStr\": \"" + listStr + "\",\"btnzoneStr\": \""
 				+ btnzoneStr + "\",\"memolistStr\": \"" + memolistStr + "\",\"memoliStr\": \"" + memoliStr

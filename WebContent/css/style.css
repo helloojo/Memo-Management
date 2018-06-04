@@ -1,247 +1,251 @@
 html,body,div,span,h3,hr,textarea,input,img {
-	margin: 0;
-	padding: 0;
-	border: 0;
-	font: inherit;
-	font-size: 100%;
-	line-height: 100%;
-	box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font: inherit;
+    font-size: 100%;
+    line-height: 100%;
+    box-sizing: border-box;
 }
 
 div,span,li,button,input,textarea,ul {
-	outline: none;
+    outline: none;
 }
 
-html,
-body {
-	height: 100%;
+html,body {
+    height: 100%;
 }
 
 .main {
-	width: 100%;
-	height: 100%;
+    width: 100%;
+    height: 100%;
 }
+/*html element 초기화*/
 
-
+/*검색바, 검색결과 화면*/
 .searchbar {
-	background: #F23369;
-	height: 5%;
-	display: flex;
-	position: relative;
-	align-content: center;
+    background: #F23369;
+    height: 5%;
+    display: flex;
+    position: relative;
+    align-content: center;
 }
 
 #search {
-	width: 35%;
-	height: 65%;
-	margin: 0.45rem 2.5%;
-	transition: 0.4s ease-in-out;
-}
-
-.searchresult {
-	position: absolute;
-	display: none;
-	left: 0;
-	top: 5%;
-	width: 100%;
-	height: 95%;
-	background: rgba(0, 0, 0, 0.7);
-	z-index: 987654;
-	animation: 0.4s fade-in;
-	flex-wrap: wrap;
-	flex-shrink: 0;
-	align-content: flex-start;
+    width: 35%;
+    height: 65%;
+    margin: 0.45rem 2.5%;
+    transition: 0.4s ease-in-out;
 }
 
 #search:focus {
-	width: 95%;
+    width: 95%;
 }
 
+.searchresult {
+    position: absolute;
+    display: none;
+    left: 0;
+    top: 5%;
+    width: 100%;
+    height: 95%;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 987654;
+    animation: 0.4s fade-in;
+    flex-wrap: wrap;
+    flex-shrink: 0;
+    align-content: flex-start;
+}
+/*검색바, 검색결과 화면 끝*/
+
+/*검색결과 메모 출력*/
 .search-result {
-	height: 15%;
+    height: 15%;
 }
 
 .search-title {
-	display: block;
-	font-size: 1rem;
-	font-weight: bold;
-	border: 0;
-	padding: 1rem;
-	width: 90%;
+    display: block;
+    font-size: 1rem;
+    font-weight: bold;
+    border: 0;
+    padding: 1rem;
+    width: 90%;
 }
 
 .search-content {
-	display: block;
-	margin: 0.5rem auto;
-	border: 0;
-	resize: none;
-	width: 90%;
-	overflow: hidden;
-	height: 150px;
+    display: block;
+    margin: 0.5rem auto;
+    border: 0;
+    resize: none;
+    width: 90%;
+    overflow: hidden;
+    height: 150px;
 }
+/*검색결과 메모 출력 끝*/
 
-
+/*memo 출력화면*/
 .board {
-	width: 80%;
-	height: 95%;
-	background: #EDEEF2;
-	float: left;
-	overflow: hidden;
+    width: 80%;
+    height: 95%;
+    background: #EDEEF2;
+    float: left;
+    overflow: hidden;
 }
 
-
+/*memo내용*/
 .memo {
-	margin: 0.5rem;
-	width: 250px;
-	box-shadow: 0.3rem 0.3rem 1rem rgba(0, 0, 0, 0.5);
+    margin: 0.5rem;
+    width: 250px;
+    box-shadow: 0.3rem 0.3rem 1rem rgba(0, 0, 0, 0.5);
+}
+
+.memo>.move {
+    height: 30px;
+    background: rgba(0, 0, 0, 0.25);
+    width: 100%;
+}
+
+.memo>.move>.option {
+    float: right;
+}
+
+.memo>.move>.option>.star {
+    color: yellow;
+    font-size: 1.8rem;
+    cursor: pointer;
+}
+
+.memo>.move>.option>.image {
+    display: inline-block;
+    cursor: pointer;
+    font-size: 1.7rem;
+    margin-right: 0.3rem;
+    color: #EDEEF2;
+}
+
+.memo>.move>.option>.image:hover,
+.memo>.move>.option>.image:focus {
+    color: red;
+}
+
+.memo>.move>.option>.imageinput {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    border: 0;
+}
+
+.memo>.move>.option>.memobgcolor {
+    -webkit-appearance: none;
+    display: inline-block;
+    width: 23px;
+    border: 0;
+    border-radius: 50%;
+    cursor: pointer;
+    position: relative;
+    top: -0.2rem;
+}
+
+.memo>.move>.option>.memobgcolor::-webkit-color-swatch-wrapper {
+    padding: 0;
+}
+
+.memo>.move>.option>.memobgcolor::-webkit-color-swatch {
+    border: 2px ridge #DDDDDD;
+    border-radius: 50%;
+}
+
+.memo>.move>.option>.memobgcolor::-webkit-color-swatch:hover,
+.memo>.move>.option>.memobgcolor::-webkit-color-swatch:focus {
+    border: 2px inset #DDDDDD;
+}
+
+.memo>.move>.option>.remove {
+    margin-right: 0.4rem;
+    font-size: 1.7rem;
+    color: #EDEEF2;
+}
+
+.memo>.move>.option>.remove:hover,
+.memo>.move>.option>.remove:focus {
+    color: #f44336;
+    cursor: pointer;
+}
+
+.memo>.title {
+    display: block;
+    font-size: 1rem;
+    font-weight: bold;
+    border: 0;
+    padding: 1rem;
+    width: 90%;
 }
 
 .memo>hr {
-	margin: 0;
-	border: 1px solid rgba(255, 255, 255, 0.4);
+    margin: 0;
+    border: 1px solid rgba(255, 255, 255, 0.4);
 }
 
-.move {
-	height: 30px;
-	background: rgba(0, 0, 0, 0.25);
-	width: 100%;
+.memo>.imagearea {
+    width: 90%;
+    margin: 0.5rem auto 0 auto;
+    display: block;
 }
 
-.option {
-	float: right;
+.memo>.content {
+    display: block;
+    margin: 0.5rem auto;
+    border: 0;
+    resize: none;
+    width: 90%;
+    overflow: hidden;
+    height: 150px;
 }
 
-.star {
-	color: yellow;
-	font-size: 1.8rem;
-	cursor: pointer;
+.memo>.time {
+    margin-right: 0.4rem;
+    margin-bottom: 0.3rem;
+    float: right;
+    font-weight: 600;
 }
+/*memo내용 끝*/
 
-.image {
-	display: inline-block;
-	cursor: pointer;
-	font-size: 1.7rem;
-	margin-right: 0.3rem;
-	color: #EDEEF2;
-}
-
-.image:hover,
-.image:focus {
-	color: red;
-}
-
-.imageinput {
-	position: absolute;
-	width: 1px;
-	height: 1px;
-	padding: 0;
-	margin: -1px;
-	overflow: hidden;
-	border: 0;
-}
-
-.memobgcolor {
-	-webkit-appearance: none;
-	display: inline-block;
-	width: 23px;
-	border: 0;
-	border-radius: 50%;
-	cursor: pointer;
-	position: relative;
-	top: -0.2rem;
-}
-
-.memobgcolor::-webkit-color-swatch-wrapper {
-	padding: 0;
-}
-
-.memobgcolor::-webkit-color-swatch {
-	border: 2px ridge #DDDDDD;
-	border-radius: 50%;
-}
-
-.memobgcolor::-webkit-color-swatch:hover,
-.memobgcolor::-webkit-color-swatch:focus {
-	border: 2px inset #DDDDDD;
-}
-
-.remove {
-	margin-right: 0.4rem;
-	font-size: 1.7rem;
-	color: #EDEEF2;
-}
-
-.remove:hover,
-.remove:focus {
-	color: #f44336;
-	cursor: pointer;
-}
-
-.title {
-	display: block;
-	font-size: 1rem;
-	font-weight: bold;
-	border: 0;
-	padding: 1rem;
-	width: 90%;
-}
-
-.imagearea {
-	width: 90%;
-	margin: 0.5rem auto 0 auto;
-	display: block;
-}
-
-.content {
-	display: block;
-	margin: 0.5rem auto;
-	border: 0;
-	resize: none;
-	width: 90%;
-	overflow: hidden;
-	height: 150px;
-}
-
-.time {
-	margin-right: 0.4rem;
-	margin-bottom: 0.3rem;
-	float: right;
-	font-weight: 600;
-}
-
-
+/*board,memolist관련*/
 .list {
-	width: 20%;
-	height: 95%;
-	background: #272945;
-	float: right;
+    width: 20%;
+    height: 95%;
+    background: #272945;
+    float: right;
 }
 
 .boardlist {
-	margin-top: 4rem;
-	margin-left: 2rem;
-	color: #EDEEF2;
+    margin-top: 4rem;
+    margin-left: 2rem;
+    color: #EDEEF2;
 }
 
 .boardli {
-	font-size: 1.6rem;
-	font-weight: bold;
-	cursor: pointer;
-	margin: 1rem 0 0 0;
+    font-size: 1.6rem;
+    font-weight: bold;
+    cursor: pointer;
+    margin: 1rem 0 0 0;
 }
 
 .boardli:hover {
-	color: #F5B893;
-	transition: 0.2s;
+    color: #F5B893;
+    transition: 0.2s;
 }
 
 .panel {
-	width: 90%;
-	display: inline-block;
+    width: 90%;
+    display: inline-block;
 }
 
 .memoli {
-	cursor: pointer;
+    cursor: pointer;
     list-style: none;
     font-size: 1.1rem;
     padding: 0;
@@ -250,18 +254,18 @@ body {
     right: 0.5rem;
 }
 
-.memoli > li {
-	margin-bottom: 0.3rem;
+.memoli>li {
+    margin-bottom: 0.3rem;
 }
 
 .buttonzone {
-	display: inline-block;
-	position: relative;
-	top: -1.5rem;
-	left: 15rem;
-	font-size: 1.3rem;
-	font-weight: bold;
-	color: #EDEEF2;
+    display: inline-block;
+    position: relative;
+    top: -1.5rem;
+    left: 15rem;
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #EDEEF2;
 }
 
 .add:hover,
@@ -272,147 +276,160 @@ body {
 .close:focus,
 .dboard:hover,
 .dboard:focus {
-	color: #f44336;
-	cursor: pointer;
+    color: #f44336;
+    cursor: pointer;
 }
 
-
-li > .star {
-	font-size: 1.6rem;
+li>.star {
+    font-size: 1.6rem;
 }
 
-li > .star, li > .close {
-	position: relative;
-	left: 17rem;
-	top: 0.3rem;
+li>.star,
+li>.close {
+    position: relative;
+    left: 17rem;
+    top: 0.3rem;
 }
+/*list 끝*/
 
+/*board 추가 버튼*/
 #addboard {
-	display: block;
-	color: #EDEEF2;
-	font-size: 1.5rem;
-	font-weight: bold;
-	padding: 1rem 2rem;
-	margin: 2.5rem auto;
-	border: 0;
-	background: #00BFFF;
-	border-radius: 1rem;
+    display: block;
+    color: #EDEEF2;
+    font-size: 1.5rem;
+    font-weight: bold;
+    padding: 1rem 2rem;
+    margin: 2.5rem auto;
+    border: 0;
+    background: #00BFFF;
+    border-radius: 1rem;
 }
+
 #addboard:hover {
-	background: #FF8F00;
-	color: #2D3235;
-	transition: 0.2s;
+    background: #FF8F00;
+    color: #2D3235;
+    transition: 0.2s;
 }
+/*board 추가 버튼끝*/
 
+/*modal창 관련*/
 .modal {
-	display: none;
-	position: absolute;
-	background: rgba(0, 0, 0, 0.7);
-	left: 0;
-	top: 0;
-	width: 100%;
-	height: 100%;
-	z-index: 9876543;
-	overflow: hidden;
-	animation: 0.4s fade-in;
-}
-
-@keyframes fade-in {
-	from {
-		opacity: 0;
-	}
-	to {
-		opacity: 1;
-	}
+    display: none;
+    position: absolute;
+    background: rgba(0, 0, 0, 0.7);
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9876543;
+    overflow: hidden;
+    animation: 0.4s fade-in;
 }
 
 .addmodal-content {
-	position: relative;
-	width: 25%;
-	height: 20%;
-	margin: auto;
-	top: 30%;
-	background: #EDEEF2;
-	z-index: 98765432;
-	animation: 0.5s zoom-out;
-	font-weight: bold;
-}
-
-@keyframes zoom-out {
-	from {
-		transform: scale(0);
-	}
-	to {
-		transform: scale(1);
-	}
+    position: relative;
+    width: 25%;
+    height: 20%;
+    margin: auto;
+    top: 30%;
+    background: #EDEEF2;
+    z-index: 98765432;
+    animation: 0.5s zoom-out;
+    font-weight: bold;
 }
 
 .header {
-	padding: 2.5%;
+    padding: 2.5%;
 }
 
 .header>h3 {
-	font-size: 1.8rem;
+    font-size: 1.8rem;
 }
 
 .header>hr {
-	margin-top: 1rem;
-	border: 1px solid #272945;
+    margin-top: 1rem;
+    border: 1px solid #272945;
 }
 
 .namesec {
-	padding: 2.5%;
-	font-size: 1.2rem;
+    padding: 2.5%;
+    font-size: 1.2rem;
 }
 
 input[name="name"] {
-	float: right;
-	width: 65%;
+    float: right;
+    width: 65%;
 }
 
 .btsection {
-	margin-top: 4%;
-	width: 100%;
-	display: flex;
-	align-items: center;
-	justify-content: center;
+    margin-top: 4%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.sbbtn, .ccbtn {
-	width: 45%;
-	margin: 0 1%;
-	padding: 2% 0;
-	font-weight: bold;
-	font-size: 1.5rem;
-	border-radius: 1rem;
-	background: #707172;
-	color: #EDEEF2;
+.sbbtn,
+.ccbtn {
+    width: 45%;
+    margin: 0 1%;
+    padding: 2% 0;
+    font-weight: bold;
+    font-size: 1.5rem;
+    border-radius: 1rem;
+    background: #707172;
+    color: #EDEEF2;
 }
 
 .sbbtn:hover {
-	background: #275FB4;
-	transition: 0.2s;
+    background: #275FB4;
+    transition: 0.2s;
 }
 
 .ccbtn:hover {
-	background: #A34845;
-	transition: 0.2s;
+    background: #A34845;
+    transition: 0.2s;
 }
+/*modal창 관련 끝*/
 
+/*loading 창*/
 #loading {
-	width: 100%;
-	height: 100%;
-	position: absolute;
-	left: 0;
-	top: 0;
-	background: rgba(255,255,255,0.7);
-	z-index: 987654321;
-	display: none;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    background: rgba(255, 255, 255, 0.7);
+    z-index: 987654321;
+    display: none;
 }
 
 #loading-img {
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	z-index: 987654321;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 987654321;
 }
+/*loading 창 끝*/
+
+/*css animation*/
+@keyframes fade-in {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes zoom-out {
+    from {
+        transform: scale(0);
+    }
+
+    to {
+        transform: scale(1);
+    }
+}
+/*css animation 끝*/

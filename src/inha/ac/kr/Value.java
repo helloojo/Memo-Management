@@ -1,6 +1,12 @@
 package inha.ac.kr;
-
-public class Value {		//ajax실행 시 실행할 query를 구분하기 위한 상수 값
+/**
+ * 
+ * @author AYJ
+ * getData.jsp에 ajax요청 시
+ * 어떤 query를 실행할 지 구분하기 위한 상수 값을 모아놓은 class
+ *
+ */
+public class Value {
 	public static final int GETBOARDANDMEMO = 0;
 	public static final int GETMEMO = 1;
 	public static final int ADDBOARD = 2;
