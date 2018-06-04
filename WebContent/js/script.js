@@ -379,6 +379,17 @@ window.onload = function() {
 					}
 				}
 			}
+			var $boardli=$(".boardli");
+			for(var i in $boardli) {			//boardlist에 memo개수 수정
+				var $find=$($boardli[i]);
+				if($find.data("boardid")==boardid) {
+					var cnt=$find.html().match(/\(\d*\)$/)[0].replace("(","");	//맨끝에 "(숫자)" 문자열 추출해서 '('제거
+					cnt=parseInt(cnt)-1;		//int로 변환해서 1빼줌
+					var boardname=$find.next().data("boardname");	//panel에 boardname저장되어있으므로 boardname가져옴
+					$find.html(boardname+" ("+cnt+")");	//memo 개수 수정
+					break;
+				}
+			}
 			if (imagepath != "null") {
 				deleteImage(imagepath); // 만약 사진파일이 있으면 삭제
 			}
