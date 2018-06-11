@@ -175,6 +175,7 @@ window.onload = function() {
 			memoli.append(memo.title);				//title 추가
 			memoli.data("memoid", memo.memoid);		//data 추가
 			memoli.data("important", memo.important);
+			memoli.data("imagepath",memo.imagepath);
 			if (memo.important == 1) {		//중요메모일시 중요설정
 				memoli.find(".star").html("star");
 			}
@@ -356,7 +357,6 @@ window.onload = function() {
 
 		function deleteMemo(memo) {		//memo 삭제
 			var memoid = memo.data("memoid");
-			var boardid = memo.data("boardid");
 			var imagepath = memo.data("imagepath");
 			if (memo[0].nodeName == "DIV") {		//memo창에서 삭제 호출한 경우
 				memo.remove();
@@ -379,14 +379,15 @@ window.onload = function() {
 					}
 				}
 			}
-			var $boardli=$(".boardli");
-			for(var i in $boardli) {			//boardlist에 memo개수 수정
-				var $find=$($boardli[i]);
-				if($find.data("boardid")==boardid) {
-					var cnt=$find.html().match(/\(\d*\)$/)[0].replace("(","");	//맨끝에 "(숫자)" 문자열 추출해서 '('제거
+			
+			var $panel=$(".panel");
+			for(var i in $panel) {			//boardlist에 memo개수 수정
+				var $find=$($panel[i]);
+				if(curboard==$find.data("boardid")) {	//panel -> prev -> boardli(boardname (memocount) 출력하는 부분)
+					var cnt=$find.prev().html().match(/\(\d*\)$/)[0].replace("(","");	//맨끝에 "(숫자)" 문자열 추출해서 '('제거
 					cnt=parseInt(cnt)-1;		//int로 변환해서 1빼줌
-					var boardname=$find.next().data("boardname");	//panel에 boardname저장되어있으므로 boardname가져옴
-					$find.html(boardname+" ("+cnt+")");	//memo 개수 수정
+					var boardname=$find.data("boardname");	//panel에 boardname저장되어있으므로 boardname가져옴
+					$find.prev().html(boardname+" ("+cnt+")");	//memo 개수 수정
 					break;
 				}
 			}
@@ -533,7 +534,7 @@ window.onload = function() {
 						$("#loading").css("display", "block");
 					},
 					success: function(data) {
-						data = data.trim().replace(/\n/g, "\\\\n").replace(/\r/g, "\\\\r").replace(/\t/g, "\\\\t");
+						data = data.trim().replace(/\n/g, "\\n").replace(/\r/g, "\\r").replace(/\t/g, "\\t");
 						data = $.parseJSON(data);
 						print(data, boardid);
 						$("#loading").css("display", "none");
